@@ -1153,7 +1153,7 @@ function CardTile({
         <h4>{card.title}</h4>
         {card.isRoutine ? <span className="routineBadge">定常</span> : null}
       </div>
-      <p>{card.body || "本文未入力"}</p>
+      <p className="cardBodyPreview">{card.body || "本文未入力"}</p>
       <div className="tags">
         {card.tags.map((tag) => (
           <span key={tag} style={tagStyle(tag, tags, tagColors)}>{tag}</span>

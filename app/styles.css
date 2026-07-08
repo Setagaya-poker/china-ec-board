@@ -206,7 +206,11 @@ nav button.active {
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
+  max-height: 260px;
   margin-bottom: 10px;
+  overflow: hidden;
   padding: 12px;
 }
 
@@ -218,21 +222,33 @@ nav button.active {
 }
 
 .card h4 {
+  display: -webkit-box;
   font-size: 15px;
   margin: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
-.card p {
+.cardBodyPreview {
   color: var(--muted);
+  display: -webkit-box;
   font-size: 13px;
   line-height: 1.55;
   margin: 0 0 10px;
+  max-height: calc(1.55em * 4);
+  overflow: hidden;
+  white-space: pre-line;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  max-height: 58px;
+  overflow: hidden;
 }
 
 .tags span {
