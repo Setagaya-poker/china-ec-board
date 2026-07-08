@@ -19,6 +19,7 @@ type ProjectCard = {
   status: Status;
   tags: string[];
   isRoutine: boolean;
+  dueDate: string | null;
   updatedBy: string;
   createdAt: string;
   updatedAt: string;
@@ -55,6 +56,7 @@ type ProjectCardRow = {
   body: string;
   status: Status;
   is_routine: boolean;
+  due_date?: string | null;
   sort_order: number;
   updated_by: string | null;
   created_at: string;
@@ -99,6 +101,15 @@ const initialTags = [
 
 const now = () => new Date().toLocaleString("ja-JP");
 
+const formatDueDate = (dueDate: string | null) => {
+  if (!dueDate) return null;
+  return new Date(`${dueDate}T00:00:00`).toLocaleDateString("ja-JP", {
+    month: "numeric",
+    day: "numeric",
+    weekday: "short"
+  });
+};
+
 const sampleCards: ProjectCard[] = [
   {
     id: "card-1",
@@ -107,6 +118,7 @@ const sampleCards: ProjectCard[] = [
     status: "検討中",
     tags: ["モール施策：Douyin", "SNS企画：Douyin公式"],
     isRoutine: false,
+    dueDate: null,
     updatedBy: "梅澤",
     createdAt: now(),
     updatedAt: now()
@@ -118,6 +130,7 @@ const sampleCards: ProjectCard[] = [
     status: "準備中",
     tags: ["動画制作", "動画制作（代理店）"],
     isRoutine: false,
+    dueDate: null,
     updatedBy: "梅澤",
     createdAt: now(),
     updatedAt: now()
@@ -129,6 +142,7 @@ const sampleCards: ProjectCard[] = [
     status: "実行中",
     tags: ["SNS企画：RED"],
     isRoutine: true,
+    dueDate: null,
     updatedBy: "梅澤",
     createdAt: now(),
     updatedAt: now()
@@ -155,6 +169,7 @@ const blankCardDraft = (tags: string[]): ProjectCard => ({
   status: "検討中",
   tags: [],
   isRoutine: false,
+  dueDate: null,
   updatedBy: "梅澤",
   createdAt: now(),
   updatedAt: now()
@@ -208,9 +223,10 @@ export default function Home() {
   const [showCreateCard, setShowCreateCard] = useState(false);
   const [tagColors, setTagColors] = useState<Record<string, TagColor>>(initialTagColors);
   const [tagAlert, setTagAlert] = useState<string | null>(null);
-  const [dataNotice, setDataNotice] = useState("ログイン状態を確認しています。");
+  const [dataNotice, setDataNotice] = useState<string | null>(null);
   const [authStatus, setAuthStatus] = useState<AuthStatus>("checking");
   const [currentUserEmail, setCurrentUserEmail] = useState("");
+  const [animatedCardId, setAnimatedCardId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!supabase || !hasSupabaseConfig) {
@@ -306,8 +322,6 @@ export default function Home() {
       return;
     }
 
-    setDataNotice("Supabaseから読み込み中です。");
-
     const [tagResult, cardResult, qaResult] = await Promise.all([
       supabase.from("tags").select("*").order("created_at", { ascending: true }),
       supabase
@@ -362,6 +376,7 @@ export default function Home() {
         status: card.status,
         tags: card.project_card_tags?.map((item) => item.tags?.name).filter((tag): tag is string => Boolean(tag)) ?? [],
         isRoutine: card.is_routine,
+        dueDate: card.due_date ?? null,
         updatedBy: card.updated_by ?? "梅澤",
         createdAt: new Date(card.created_at).toLocaleString("ja-JP"),
         updatedAt: new Date(card.updated_at).toLocaleString("ja-JP")
@@ -382,7 +397,7 @@ export default function Home() {
       }))
     );
 
-    setDataNotice("Supabaseに保存されます。");
+    setDataNotice(null);
   };
 
   const selectedCard = cards.find((card) => card.id === selectedCardId) ?? null;
@@ -428,6 +443,7 @@ export default function Home() {
       body?: string;
       status?: Status;
       is_routine?: boolean;
+      due_date?: string | null;
       updated_by?: string;
     } = {};
 
@@ -435,6 +451,7 @@ export default function Home() {
     if (patch.body !== undefined) updatePayload.body = patch.body;
     if (patch.status !== undefined) updatePayload.status = patch.status;
     if (patch.isRoutine !== undefined) updatePayload.is_routine = patch.isRoutine;
+    if (patch.dueDate !== undefined) updatePayload.due_date = patch.dueDate;
     if (patch.updatedBy !== undefined) updatePayload.updated_by = patch.updatedBy;
 
     if (Object.keys(updatePayload).length > 0) {
@@ -496,7 +513,39 @@ export default function Home() {
     void persistQaUpdate(id, patch);
   };
 
-  const moveCard = (id: string, status: Status) => updateCard(id, { status, isRoutine: false });
+  const markCardAnimated = (id: string) => {
+    setAnimatedCardId(id);
+    window.setTimeout(() => {
+      setAnimatedCardId((current) => (current === id ? null : current));
+    }, 420);
+  };
+
+  const moveCard = (id: string, status: Status) => {
+    updateCard(id, { status, isRoutine: false });
+    markCardAnimated(id);
+  };
+
+  const moveCardToPosition = (id: string, status: Status, targetId?: string) => {
+    if (id === targetId) return;
+    setCards((current) => {
+      const dragged = current.find((card) => card.id === id);
+      if (!dragged) return current;
+
+      const withoutDragged = current.filter((card) => card.id !== id);
+      const updatedDragged = { ...dragged, status, isRoutine: false, updatedAt: now(), updatedBy: "梅澤" };
+      const targetIndex = targetId ? withoutDragged.findIndex((card) => card.id === targetId) : -1;
+      const insertIndex =
+        targetIndex >= 0
+          ? targetIndex
+          : withoutDragged.findLastIndex((card) => card.status === status && !card.isRoutine) + 1;
+      const next = [...withoutDragged];
+      next.splice(insertIndex, 0, updatedDragged);
+      void persistCardUpdate(id, { status, isRoutine: false, updatedBy: "梅澤" });
+      void persistCardOrder(next);
+      markCardAnimated(id);
+      return next;
+    });
+  };
 
   const reorderCard = (id: string, direction: -1 | 1) => {
     setCards((current) => {
@@ -508,6 +557,7 @@ export default function Home() {
       const [item] = next.splice(index, 1);
       next.splice(target, 0, item);
       void persistCardOrder(next);
+      markCardAnimated(id);
       return next;
     });
   };
@@ -665,16 +715,29 @@ export default function Home() {
     if (!title) return;
 
     if (supabase) {
+      const insertPayload: {
+        title: string;
+        body: string;
+        status: Status;
+        is_routine: boolean;
+        due_date?: string | null;
+        sort_order: number;
+        updated_by: string;
+      } = {
+        title,
+        body: cardDraft.body,
+        status: cardDraft.status,
+        is_routine: cardDraft.isRoutine,
+        sort_order: cards.length,
+        updated_by: "梅澤"
+      };
+      if (cardDraft.dueDate) {
+        insertPayload.due_date = cardDraft.dueDate;
+      }
+
       const { data, error } = await supabase
         .from("project_cards")
-        .insert({
-          title,
-          body: cardDraft.body,
-          status: cardDraft.status,
-          is_routine: cardDraft.isRoutine,
-          sort_order: cards.length,
-          updated_by: "梅澤"
-        })
+        .insert(insertPayload)
         .select("*")
         .single();
 
@@ -692,6 +755,7 @@ export default function Home() {
         status: row.status,
         tags: cardDraft.tags,
         isRoutine: row.is_routine,
+        dueDate: row.due_date ?? null,
         updatedBy: row.updated_by ?? "梅澤",
         createdAt: new Date(row.created_at).toLocaleString("ja-JP"),
         updatedAt: new Date(row.updated_at).toLocaleString("ja-JP")
@@ -785,7 +849,7 @@ export default function Home() {
         </div>
         <nav>
           <button className={view === "board" ? "active" : ""} onClick={() => setView("board")}>
-            案件カンバン
+            ダッシュボード
           </button>
           <button className={view === "tags" ? "active" : ""} onClick={() => setView("tags")}>
             タグ別ビュー
@@ -816,7 +880,7 @@ export default function Home() {
       </aside>
 
       <section className="content">
-        <div className="dataNotice">{dataNotice}</div>
+        {dataNotice ? <div className="dataNotice">{dataNotice}</div> : null}
         {!canUseApp && hasSupabaseConfig ? (
           <section className="panel authPanel">
             <h2>{authStatus === "unauthorized" ? "アクセスできません" : "ログインしてください"}</h2>
@@ -832,7 +896,7 @@ export default function Home() {
           <>
             <header className="toolbar">
               <div>
-                <h2>案件カンバン</h2>
+                <h2>ダッシュボード</h2>
                 <p>追加したい列から案件を登録します。</p>
               </div>
             </header>
@@ -844,7 +908,10 @@ export default function Home() {
                     className="column"
                     key={status}
                     onDragOver={(event) => event.preventDefault()}
-                    onDrop={(event) => moveCard(event.dataTransfer.getData("text/plain"), status)}
+                    onDrop={(event) => {
+                      event.preventDefault();
+                      moveCardToPosition(event.dataTransfer.getData("text/plain"), status);
+                    }}
                   >
                     <div className="columnHeader">
                       <h3>{status}</h3>
@@ -859,8 +926,10 @@ export default function Home() {
                           isSelected={selectedCardId === card.id}
                           tags={tags}
                           tagColors={tagColors}
+                          isAnimated={animatedCardId === card.id}
                           onOpen={() => setSelectedCardId(card.id)}
                           onReorder={(direction) => reorderCard(card.id, direction)}
+                          onDropOnCard={(draggedId) => moveCardToPosition(draggedId, status, card.id)}
                         />
                       ))}
                   </section>
@@ -884,8 +953,10 @@ export default function Home() {
                         isSelected={selectedCardId === card.id}
                         tags={tags}
                         tagColors={tagColors}
+                        isAnimated={animatedCardId === card.id}
                         onOpen={() => setSelectedCardId(card.id)}
                         onReorder={(direction) => reorderCard(card.id, direction)}
+                        onDropOnCard={(draggedId) => moveCardToPosition(draggedId, card.status, card.id)}
                       />
                     ))}
                   </div>
@@ -991,6 +1062,11 @@ export default function Home() {
               onChange={(value) => setCardDraft((current) => ({ ...current, body: value }))}
               rows={7}
             />
+            <DateField
+              label="期限"
+              value={cardDraft.dueDate}
+              onChange={(value) => setCardDraft((current) => ({ ...current, dueDate: value }))}
+            />
             <label>
               ステータス
               <select
@@ -1029,13 +1105,16 @@ export default function Home() {
       {selectedCard && (
         <Drawer title="案件詳細" onClose={() => setSelectedCardId(null)}>
           <EditorField label="タイトル" value={selectedCard.title} onChange={(value) => updateCard(selectedCard.id, { title: value })} />
-          <EditorArea label="本文" value={selectedCard.body} onChange={(value) => updateCard(selectedCard.id, { body: value })} />
-          <label>
-            ステータス
-            <select value={selectedCard.status} onChange={(event) => updateCard(selectedCard.id, { status: event.target.value as Status })}>
-              {statuses.map((status) => <option key={status}>{status}</option>)}
-            </select>
-          </label>
+          <EditorArea label="本文" value={selectedCard.body} onChange={(value) => updateCard(selectedCard.id, { body: value })} rows={18} />
+          <div className="compactFields">
+            <label>
+              ステータス
+              <select value={selectedCard.status} onChange={(event) => updateCard(selectedCard.id, { status: event.target.value as Status })}>
+                {statuses.map((status) => <option key={status}>{status}</option>)}
+              </select>
+            </label>
+            <DateField label="期限" value={selectedCard.dueDate} onChange={(value) => updateCard(selectedCard.id, { dueDate: value })} />
+          </div>
           <label className="checkboxLine">
             <input
               checked={selectedCard.isRoutine}
@@ -1045,7 +1124,26 @@ export default function Home() {
             定常運用に入れる
           </label>
           <TagPicker allTags={tags} tagColors={tagColors} selected={selectedCard.tags} onChange={(next) => updateCard(selectedCard.id, { tags: next })} />
-          <button className="danger" onClick={() => void deleteCard(selectedCard.id)}>削除</button>
+          <div className="drawerFooter">
+            <button
+              aria-label="案件を削除"
+              className="iconDeleteButton"
+              title="案件を削除"
+              onClick={() => {
+                if (window.confirm("この案件を削除しますか？")) {
+                  void deleteCard(selectedCard.id);
+                }
+              }}
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M9 4h6" />
+                <path d="M5 7h14" />
+                <path d="M10 11v6" />
+                <path d="M14 11v6" />
+                <path d="M7 7l1 13h8l1-13" />
+              </svg>
+            </button>
+          </div>
         </Drawer>
       )}
 
@@ -1120,9 +1218,31 @@ function EditorField({
 
 function EditorArea({ label, value, onChange, rows = 8 }: { label: string; value: string; onChange: (value: string) => void; rows?: number }) {
   return (
-    <label>
+    <label className="editorAreaLabel">
       {label}
       <textarea value={value} onChange={(event) => onChange(event.target.value)} rows={rows} />
+    </label>
+  );
+}
+
+function DateField({
+  label,
+  value,
+  onChange
+}: {
+  label: string;
+  value: string | null;
+  onChange: (value: string | null) => void;
+}) {
+  return (
+    <label>
+      {label}
+      <div className="dateField">
+        <input type="date" value={value ?? ""} onChange={(event) => onChange(event.target.value || null)} />
+        <button type="button" onClick={() => onChange(null)}>
+          クリア
+        </button>
+      </div>
     </label>
   );
 }
@@ -1130,38 +1250,55 @@ function EditorArea({ label, value, onChange, rows = 8 }: { label: string; value
 function CardTile({
   card,
   isSelected,
+  isAnimated,
   tags,
   tagColors,
   onOpen,
-  onReorder
+  onReorder,
+  onDropOnCard
 }: {
   card: ProjectCard;
   isSelected: boolean;
+  isAnimated: boolean;
   tags: string[];
   tagColors: Record<string, TagColor>;
   onOpen: () => void;
   onReorder: (direction: -1 | 1) => void;
+  onDropOnCard: (draggedId: string) => void;
 }) {
   return (
     <article
-      className={isSelected ? "card selected" : "card"}
+      className={[
+        "card",
+        isSelected ? "selected" : "",
+        isAnimated ? "moved" : ""
+      ].filter(Boolean).join(" ")}
       draggable
       onClick={onOpen}
       onDragStart={(event) => event.dataTransfer.setData("text/plain", card.id)}
+      onDragOver={(event) => event.preventDefault()}
+      onDrop={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        onDropOnCard(event.dataTransfer.getData("text/plain"));
+      }}
     >
       <div className="cardTopline">
         <h4>{card.title}</h4>
-        {card.isRoutine ? <span className="routineBadge">定常</span> : null}
+        <div className="cardMeta">
+          {card.dueDate ? <span className="dueText">期限 {formatDueDate(card.dueDate)}</span> : null}
+          {card.isRoutine ? <span className="routineBadge">定常</span> : null}
+        </div>
       </div>
-      <p className="cardBodyPreview">{card.body || "本文未入力"}</p>
       <div className="tags">
         {card.tags.map((tag) => (
           <span key={tag} style={tagStyle(tag, tags, tagColors)}>{tag}</span>
         ))}
       </div>
+      <p className="cardBodyPreview">{card.body || "本文未入力"}</p>
       <div className="cardActions">
-        <button onClick={(event) => { event.stopPropagation(); onReorder(-1); }}>上へ</button>
-        <button onClick={(event) => { event.stopPropagation(); onReorder(1); }}>下へ</button>
+        <button aria-label="上へ移動" title="上へ移動" onClick={(event) => { event.stopPropagation(); onReorder(-1); }}>↑</button>
+        <button aria-label="下へ移動" title="下へ移動" onClick={(event) => { event.stopPropagation(); onReorder(1); }}>↓</button>
       </div>
     </article>
   );
