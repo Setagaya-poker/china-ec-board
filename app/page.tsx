@@ -2198,8 +2198,9 @@ function EditorArea({
       const formData = new FormData();
       formData.append("audio", audioBlob, "voice.webm");
 
-      const response = await fetch("/api/ai/transcribe", {
+      const response = await fetch("/api/ai/voice-transcribe", {
         method: "POST",
+        cache: "no-store",
         body: formData
       });
 
