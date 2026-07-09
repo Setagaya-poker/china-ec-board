@@ -2204,7 +2204,10 @@ function EditorArea({
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
+        const contentType = response.headers.get("content-type") ?? "";
+        const errorText = contentType.includes("application/json")
+          ? ((await response.json()) as { error?: string }).error ?? "不明なエラー"
+          : await response.text();
         setSpeechMessage(`音声入力に失敗しました: ${errorText.slice(0, 120)}`);
         return;
       }
