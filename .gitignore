@@ -4,5 +4,6 @@ out
 .env.local
 .env
 .vercel
+supabase/.temp
 *.log
 tsconfig.tsbuildinfo

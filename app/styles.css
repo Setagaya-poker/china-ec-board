@@ -32,15 +32,14 @@ textarea {
 }
 
 button {
-  border: 1px solid var(--line);
+  border: 0;
   background: #fffaf2;
-  border-radius: 6px;
   cursor: pointer;
   padding: 9px 12px;
 }
 
 button:hover {
-  border-color: var(--gold);
+  background: #f3e5ad;
 }
 
 main {
@@ -113,7 +112,6 @@ nav button {
 
 nav button.active {
   background: #b18944;
-  border-color: #b18944;
 }
 
 .loginBox {
@@ -142,8 +140,6 @@ nav button.active {
 
 .dataNotice {
   background: #fffaf2;
-  border: 1px solid var(--line);
-  border-radius: 8px;
   color: var(--muted);
   font-size: 13px;
   margin-bottom: 14px;
@@ -179,7 +175,6 @@ nav button.active {
 
 .primary {
   background: var(--orange);
-  border-color: var(--orange);
   color: #ffffff;
 }
 
@@ -192,14 +187,16 @@ nav button.active {
 .kanban {
   display: grid;
   gap: 14px;
-  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
   overflow-x: auto;
+}
+
+.kanban.withCompleted {
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
 }
 
 .column {
   background: rgba(217, 200, 181, 0.28);
-  border: 1px solid var(--line);
-  border-radius: 8px;
   min-height: 68vh;
   padding: 12px;
   position: relative;
@@ -248,7 +245,6 @@ nav button.active {
 .card,
 .panel {
   background: var(--panel);
-  border: 1px solid var(--line);
 }
 
 .card {
@@ -259,7 +255,7 @@ nav button.active {
   overflow: hidden;
   padding: 12px;
   transform: translateY(0) scale(1);
-  transition: background-color 220ms ease, border-color 180ms ease, box-shadow 220ms ease, transform 220ms ease;
+  transition: background-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
 }
 
 .card.selected {
@@ -300,6 +296,40 @@ nav button.active {
   -webkit-line-clamp: 4;
 }
 
+.cardDocLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.cardDocLinks a {
+  align-items: center;
+  background: rgba(93, 129, 96, 0.1);
+  color: var(--green);
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 700;
+  gap: 4px;
+  line-height: 1;
+  padding: 5px 7px;
+  text-decoration: none;
+}
+
+.cardDocLinks a:hover {
+  background: rgba(93, 129, 96, 0.18);
+}
+
+.cardDocLinks svg {
+  fill: none;
+  height: 13px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+  width: 13px;
+}
+
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -311,8 +341,6 @@ nav button.active {
 
 .tags span {
   background: var(--accent-soft);
-  border: 1px solid rgba(177, 137, 68, 0.45);
-  border-radius: 3px;
   color: #5b4315;
   font-size: 11px;
   line-height: 1.2;
@@ -321,6 +349,28 @@ nav button.active {
 
 .tags.large {
   margin-top: 18px;
+}
+
+.assigneeLine {
+  align-items: center;
+  color: var(--green);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 11px;
+  font-weight: 700;
+  gap: 5px;
+  margin: -2px 0 7px;
+}
+
+.assigneeLine::before {
+  color: var(--muted);
+  content: "担当";
+  font-weight: 600;
+}
+
+.assigneeLine span {
+  background: rgba(93, 129, 96, 0.12);
+  padding: 2px 6px;
 }
 
 .cardActions {
@@ -338,13 +388,12 @@ nav button.active {
   justify-content: center;
   line-height: 1;
   padding: 0;
-  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  transition: background-color 180ms ease, box-shadow 180ms ease;
   width: 28px;
 }
 
 .cardActions button:hover {
   background: var(--accent-soft);
-  border-color: var(--gold);
   box-shadow: inset 0 0 0 1px rgba(177, 137, 68, 0.22);
 }
 
@@ -378,7 +427,6 @@ nav button.active {
 
 .routineBadge {
   background: #5d8160;
-  border-radius: 999px;
   color: #ffffff;
   font-size: 11px;
   font-weight: 700;
@@ -387,19 +435,28 @@ nav button.active {
 
 .routineArea {
   background: rgba(93, 129, 96, 0.14);
-  border: 1px solid rgba(93, 129, 96, 0.32);
-  border-radius: 8px;
   display: grid;
   gap: 12px;
   grid-template-columns: 1fr auto;
   padding: 14px;
 }
 
-.routineArea h3 {
+.miniTaskArea {
+  background: rgba(217, 200, 181, 0.16);
+  border-left: 3px solid rgba(177, 137, 68, 0.7);
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr auto;
+  padding: 12px 0 12px 14px;
+}
+
+.routineArea h3,
+.miniTaskArea h3 {
   margin: 0;
 }
 
-.routineArea p {
+.routineArea p,
+.miniTaskArea p {
   color: var(--muted);
   margin: 4px 0 0;
 }
@@ -445,9 +502,111 @@ nav button.active {
   grid-template-columns: 1fr auto;
 }
 
+.rowButton.selected {
+  background: #e7efdf;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
 .tableList {
   display: grid;
   gap: 8px;
+}
+
+.miniTaskList {
+  border-top: 1px solid rgba(40, 48, 42, 0.12);
+  display: grid;
+  grid-column: 1 / -1;
+}
+
+.miniTaskActions {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.taskNotice {
+  background: rgba(93, 129, 96, 0.1);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+  grid-column: 1 / -1;
+  padding: 8px 10px;
+}
+
+.miniTaskRow {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(40, 48, 42, 0.1);
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(250px, 1fr) 82px 96px minmax(104px, 0.38fr) minmax(150px, 0.6fr) 34px;
+  padding: 10px 2px;
+  text-align: left;
+  width: 100%;
+}
+
+.miniTaskRow:hover {
+  background: rgba(217, 200, 181, 0.18);
+}
+
+.miniTaskOpen {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.miniTaskDelete {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: rgba(65, 30, 34, 0.68);
+  cursor: pointer;
+  display: inline-flex;
+  height: 28px;
+  justify-content: center;
+  padding: 0;
+  width: 28px;
+}
+
+.miniTaskDelete:hover {
+  background: rgba(180, 30, 34, 0.08);
+  color: var(--red);
+}
+
+.miniTaskDelete svg {
+  fill: none;
+  height: 17px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+  width: 17px;
+}
+
+.miniTaskMain {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.miniTaskMain span,
+.miniTaskTags,
+.assigneesText {
+  color: var(--muted);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.assigneesText {
+  color: var(--green);
+  font-weight: 700;
 }
 
 .tableRow {
@@ -469,8 +628,6 @@ nav button.active {
 .tagAdminRow {
   align-items: center;
   background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 8px;
   display: grid;
   gap: 10px;
   grid-template-columns: minmax(130px, 1fr) minmax(180px, 1.2fr) minmax(150px, auto) 90px auto;
@@ -478,8 +635,6 @@ nav button.active {
 }
 
 .tagPreview {
-  border: 1px solid rgba(177, 137, 68, 0.45);
-  border-radius: 999px;
   display: inline-block;
   font-size: 12px;
   justify-self: start;
@@ -502,8 +657,6 @@ nav button.active {
 }
 
 .colorSwatches button {
-  border: 2px solid transparent;
-  border-radius: 999px;
   height: 24px;
   padding: 0;
   width: 24px;
@@ -517,8 +670,8 @@ input,
 select,
 textarea {
   background: #f7efe3;
-  border: 1px solid var(--line);
-  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
   color: var(--ink);
   min-width: 0;
   padding: 10px;
@@ -543,7 +696,6 @@ textarea {
 
 .drawer {
   background: var(--panel);
-  border-left: 1px solid var(--line);
   bottom: 0;
   box-shadow: -16px 0 40px rgba(0, 0, 0, 0.12);
   display: grid;
@@ -592,13 +744,12 @@ textarea {
 .compactFields input,
 .compactFields select {
   background: transparent;
-  border-color: transparent transparent var(--line);
   padding: 8px 0;
 }
 
 .compactFields .dateField button {
   background: transparent;
-  border-color: var(--line);
+  color: var(--muted);
   padding: 8px 10px;
 }
 
@@ -630,8 +781,6 @@ textarea {
 }
 
 .tagPicker span {
-  border: 1px solid rgba(177, 137, 68, 0.45);
-  border-radius: 3px;
   color: #5b4315;
   display: inline-block;
   font-size: 11px;
@@ -644,8 +793,35 @@ textarea {
   width: fit-content;
 }
 
+.assigneePicker {
+  display: grid;
+  gap: 8px;
+}
+
+.assigneePicker .fieldLabel {
+  margin: 0;
+}
+
+.assigneePicker div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.assigneePicker button {
+  background: rgba(93, 129, 96, 0.08);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 11px;
+}
+
+.assigneePicker button.selected {
+  background: var(--green);
+  color: #ffffff;
+}
+
 .danger {
-  border-color: rgba(180, 30, 34, 0.32);
   color: var(--red);
 }
 
@@ -657,7 +833,6 @@ textarea {
 
 .iconDeleteButton {
   align-items: center;
-  border-color: rgba(180, 30, 34, 0.32);
   color: var(--red);
   display: inline-flex;
   font-size: 14px;
@@ -693,13 +868,15 @@ textarea {
 
 .modalPanel {
   background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 8px;
   box-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
   max-height: calc(100vh - 48px);
   overflow: auto;
   padding: 20px;
   width: min(560px, 100%);
+}
+
+.modalPanel.large {
+  width: min(1080px, 100%);
 }
 
 .modalPanel header {
@@ -719,6 +896,144 @@ textarea {
   gap: 13px;
 }
 
+.formError {
+  background: rgba(180, 30, 34, 0.08);
+  color: var(--red);
+  font-size: 13px;
+  padding: 9px 10px;
+}
+
+.candidateModal {
+  display: grid;
+  gap: 12px;
+}
+
+.candidateList {
+  display: grid;
+  gap: 14px;
+  max-height: 64vh;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.candidateGroup {
+  background: rgba(217, 200, 181, 0.13);
+  border-left: 3px solid rgba(177, 137, 68, 0.65);
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.candidateGroupHeader {
+  align-items: start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.candidateGroupHeader h3 {
+  font-size: 17px;
+  margin: 3px 0;
+}
+
+.candidateGroupHeader span,
+.candidateGroupHeader small,
+.candidateGroupHeader strong {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.candidateGroupItems {
+  display: grid;
+  gap: 8px;
+}
+
+.candidateItem {
+  background: rgba(255, 250, 242, 0.78);
+  display: grid;
+  gap: 9px;
+  padding: 10px;
+}
+
+.candidateItem:hover {
+  background: rgba(217, 200, 181, 0.16);
+}
+
+.candidateItem.warning {
+  background: rgba(216, 185, 83, 0.16);
+}
+
+.candidateCheck {
+  align-items: center;
+  display: inline-flex;
+  font-weight: 700;
+  gap: 7px;
+}
+
+.candidateCheck input {
+  min-width: auto;
+  width: auto;
+}
+
+.candidateMeta {
+  align-items: end;
+  color: var(--muted);
+  display: grid;
+  font-size: 12px;
+  gap: 8px;
+  grid-template-columns: minmax(180px, 1fr) auto minmax(150px, 0.5fr);
+}
+
+.candidateWarning {
+  color: #7a5510;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.candidateOpen {
+  background: transparent;
+  border: 0;
+  display: grid;
+  gap: 4px;
+  padding: 0;
+  text-align: left;
+}
+
+.candidateOpen span,
+.candidateOpen small {
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.candidateEditor {
+  display: grid;
+  gap: 12px;
+}
+
+.candidateSource {
+  background: rgba(217, 200, 181, 0.16);
+  border-left: 3px solid var(--gold);
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+}
+
+.candidateSource span,
+.candidateSource small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.candidateSource strong {
+  font-size: 17px;
+}
+
+.backButton {
+  justify-self: start;
+}
+
 .createForm label {
   display: grid;
   gap: 6px;
@@ -735,6 +1050,102 @@ textarea {
   margin: 4px -20px -20px;
   padding: 12px 20px 20px;
   position: sticky;
+}
+
+.editorAreaHeader {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.micButton {
+  align-items: center;
+  background: rgba(93, 129, 96, 0.1);
+  border: 0;
+  color: var(--green);
+  cursor: pointer;
+  display: inline-flex;
+  height: 30px;
+  justify-content: center;
+  padding: 0;
+  width: 30px;
+  position: relative;
+}
+
+.micButton:hover,
+.micButton.listening {
+  background: rgba(93, 129, 96, 0.18);
+}
+
+.micButton.listening {
+  background: rgba(180, 30, 34, 0.14);
+  box-shadow: 0 0 0 4px rgba(180, 30, 34, 0.12);
+  color: var(--red);
+}
+
+.micButton.processing {
+  background: rgba(177, 137, 68, 0.16);
+  color: var(--gold);
+  cursor: wait;
+}
+
+.micButton svg {
+  fill: none;
+  height: 17px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+  width: 17px;
+}
+
+.speechMessage {
+  align-items: center;
+  color: var(--muted);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 400;
+  gap: 6px;
+}
+
+.speechMessage.active {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.recordingDot {
+  background: var(--red);
+  border-radius: 999px;
+  height: 7px;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  width: 7px;
+}
+
+.spinner {
+  animation: spin 780ms linear infinite;
+  border: 2px solid rgba(93, 129, 96, 0.24);
+  border-top-color: currentColor;
+  border-radius: 999px;
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+}
+
+.processingButton {
+  align-items: center;
+  cursor: wait;
+  display: inline-flex;
+  gap: 7px;
+  opacity: 0.82;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes cardLanded {
@@ -767,6 +1178,10 @@ textarea {
   }
 
   .kanban {
+    grid-template-columns: repeat(3, 280px);
+  }
+
+  .kanban.withCompleted {
     grid-template-columns: repeat(4, 240px);
   }
 
@@ -779,6 +1194,10 @@ textarea {
   }
 
   .tableRow {
+    grid-template-columns: 1fr;
+  }
+
+  .miniTaskRow {
     grid-template-columns: 1fr;
   }
 
