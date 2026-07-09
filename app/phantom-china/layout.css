@@ -1,0 +1,189 @@
+:root[data-ui-theme="phantom-china"] body {
+  background:
+    linear-gradient(112deg, rgba(23, 35, 26, 0.96) 0 22%, transparent 22% 100%),
+    radial-gradient(circle at 78% 10%, rgba(216, 185, 83, 0.22), transparent 28%),
+    repeating-linear-gradient(135deg, rgba(93, 129, 96, 0.12) 0 2px, transparent 2px 18px),
+    var(--pc-bg-light);
+  color: var(--pc-text);
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+}
+
+:root[data-ui-theme="phantom-china"] body::before {
+  background:
+    radial-gradient(circle, rgba(23, 35, 26, 0.12) 0 1px, transparent 1.6px),
+    repeating-linear-gradient(90deg, transparent 0 44px, rgba(177, 137, 68, 0.12) 44px 46px);
+  background-size: 18px 18px, 92px 92px;
+  content: "";
+  inset: 0;
+  opacity: 0.5;
+  pointer-events: none;
+  position: fixed;
+  user-select: none;
+  z-index: -2;
+}
+
+:root[data-ui-theme="phantom-china"] body::after {
+  color: rgba(23, 35, 26, 0.055);
+  content: "DRAGON DECK";
+  font-size: clamp(72px, 14vw, 210px);
+  font-weight: 900;
+  left: 278px;
+  letter-spacing: 0;
+  line-height: 0.82;
+  pointer-events: none;
+  position: fixed;
+  text-transform: uppercase;
+  top: 16px;
+  transform: rotate(-6deg) skewX(-10deg);
+  user-select: none;
+  z-index: -1;
+}
+
+:root[data-ui-theme="phantom-china"] main {
+  grid-template-columns: 286px minmax(0, 1fr);
+  isolation: isolate;
+  position: relative;
+}
+
+:root[data-ui-theme="phantom-china"] .sidebar {
+  background:
+    linear-gradient(150deg, rgba(23, 35, 26, 0.12), rgba(23, 35, 26, 0.74)),
+    var(--pc-primary);
+  border-right: var(--pc-border-heavy) solid var(--pc-border);
+  clip-path: polygon(0 0, 100% 0, 94% 100%, 0 100%);
+  gap: 28px;
+  padding: 28px 36px 28px 22px;
+  box-shadow: 14px 0 0 var(--pc-secondary), 23px 0 0 var(--pc-border);
+}
+
+:root[data-ui-theme="phantom-china"] .sidebar::before {
+  opacity: 0.66;
+  mix-blend-mode: screen;
+}
+
+:root[data-ui-theme="phantom-china"] .sidebar::after {
+  background:
+    linear-gradient(124deg, transparent 0 54%, rgba(216, 185, 83, 0.36) 54% 58%, transparent 58%),
+    repeating-linear-gradient(0deg, rgba(255, 250, 242, 0.06) 0 1px, transparent 1px 14px);
+}
+
+:root[data-ui-theme="phantom-china"] .eyebrow {
+  background: var(--pc-secondary-bright);
+  color: var(--pc-primary-black);
+  display: inline-block;
+  font-size: 11px;
+  padding: 4px 8px;
+  transform: rotate(-3deg) skewX(-9deg);
+}
+
+:root[data-ui-theme="phantom-china"] .sidebar h1 {
+  color: var(--pc-text-inverse);
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 0.86;
+  margin-top: 12px;
+  text-shadow: 3px 3px 0 var(--pc-primary-black), 6px 6px 0 var(--pc-secondary);
+  text-transform: uppercase;
+  transform: rotate(-3deg) skewX(-6deg);
+}
+
+:root[data-ui-theme="phantom-china"] nav {
+  gap: 13px;
+  margin-top: 10px;
+}
+
+:root[data-ui-theme="phantom-china"] nav button {
+  background: rgba(255, 250, 242, 0.08);
+  border: var(--pc-border-normal) solid rgba(255, 250, 242, 0.42);
+  color: var(--pc-text-inverse);
+  font-size: 15px;
+  font-weight: 900;
+  min-height: 46px;
+  padding: 11px 12px;
+  position: relative;
+  text-shadow: 2px 2px 0 rgba(23, 35, 26, 0.72);
+  transform: skewX(-8deg);
+  transition: transform var(--pc-motion-fast) var(--pc-ease-sharp), background var(--pc-motion-fast), box-shadow var(--pc-motion-fast) var(--pc-ease-sharp), color var(--pc-motion-fast);
+}
+
+:root[data-ui-theme="phantom-china"] nav button::before {
+  color: rgba(255, 250, 242, 0.36);
+  content: "0" counter(nav-item);
+  counter-increment: nav-item;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+  position: absolute;
+  right: 10px;
+  top: 7px;
+}
+
+:root[data-ui-theme="phantom-china"] nav {
+  counter-reset: nav-item;
+}
+
+:root[data-ui-theme="phantom-china"] nav button:hover {
+  background: var(--pc-surface-strong);
+  box-shadow: var(--pc-shadow-hard-sm);
+  color: var(--pc-primary-black);
+  text-shadow: none;
+  transform: translateX(9px) skewX(-8deg);
+}
+
+:root[data-ui-theme="phantom-china"] nav button.active {
+  background: var(--pc-secondary-bright);
+  border-color: var(--pc-border);
+  box-shadow: var(--pc-shadow-hard-md);
+  color: var(--pc-primary-black);
+  text-shadow: 2px 2px 0 var(--pc-surface);
+  transform: translateX(18px) rotate(-2deg) skewX(-8deg);
+}
+
+:root[data-ui-theme="phantom-china"] .loginBox {
+  border-top: var(--pc-border-normal) solid rgba(255, 250, 242, 0.36);
+}
+
+:root[data-ui-theme="phantom-china"] .loginBox p {
+  color: var(--pc-surface);
+  font-family: Arial, "Hiragino Sans", sans-serif;
+}
+
+:root[data-ui-theme="phantom-china"] .content {
+  padding: 34px 36px 42px 54px;
+  position: relative;
+}
+
+:root[data-ui-theme="phantom-china"] .toolbar {
+  align-items: end;
+  background:
+    linear-gradient(110deg, var(--pc-surface) 0 72%, transparent 72%),
+    linear-gradient(110deg, var(--pc-secondary-bright) 0 86%, transparent 86%);
+  border: var(--pc-border-thick) solid var(--pc-border);
+  box-shadow: var(--pc-shadow-hard-md);
+  clip-path: polygon(0 0, 97% 0, 100% 72%, 98% 100%, 2% 100%, 0 83%);
+  margin-bottom: 24px;
+  min-height: 104px;
+  padding: 18px 22px 18px 24px;
+}
+
+:root[data-ui-theme="phantom-china"] .toolbar h2,
+:root[data-ui-theme="phantom-china"] .panel h2 {
+  color: var(--pc-primary-black);
+  font-size: clamp(30px, 4.6vw, 68px);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.82;
+  text-shadow: 3px 3px 0 var(--pc-surface), 6px 6px 0 var(--pc-secondary);
+  transform: rotate(-1.5deg) skewX(-8deg);
+}
+
+:root[data-ui-theme="phantom-china"] .toolbar p,
+:root[data-ui-theme="phantom-china"] .muted {
+  color: var(--pc-text-muted);
+  font-family: Arial, "Hiragino Sans", sans-serif;
+  font-size: 13px;
+}
+
+:root[data-ui-theme="phantom-china"] .boardStack {
+  gap: 22px;
+}

@@ -1,0 +1,167 @@
+:root[data-ui-theme="phantom-china"].ui-theme-ready .sidebar {
+  animation: pcSideCut 420ms var(--pc-ease-sharp) both;
+}
+
+:root[data-ui-theme="phantom-china"].ui-theme-ready .toolbar {
+  animation: pcPanelStrike 360ms var(--pc-ease-back) both;
+}
+
+:root[data-ui-theme="phantom-china"].ui-theme-ready .column,
+:root[data-ui-theme="phantom-china"].ui-theme-ready .miniTaskArea,
+:root[data-ui-theme="phantom-china"].ui-theme-ready .routineArea,
+:root[data-ui-theme="phantom-china"].ui-theme-ready .panel {
+  animation: pcRiseCut 360ms var(--pc-ease-sharp) both;
+}
+
+:root[data-ui-theme="phantom-china"].ui-theme-ready .column:nth-child(2) {
+  animation-delay: 35ms;
+}
+
+:root[data-ui-theme="phantom-china"].ui-theme-ready .column:nth-child(3) {
+  animation-delay: 70ms;
+}
+
+:root[data-ui-theme="phantom-china"].ui-theme-ready .column:nth-child(4) {
+  animation-delay: 105ms;
+}
+
+:root[data-ui-theme="phantom-china"] .card.moved {
+  animation: pcCardLanded 620ms var(--pc-ease-back);
+}
+
+:root[data-ui-theme="phantom-china"] .card:active {
+  box-shadow: 2px 2px 0 var(--pc-border);
+  cursor: grabbing;
+  transform: translate(2px, 3px) rotate(0.6deg);
+}
+
+:root[data-ui-theme="phantom-china"] .card[draggable="true"]:hover {
+  cursor: grab;
+}
+
+:root[data-ui-theme="phantom-china"] .modalBackdrop {
+  animation: pcBackdropIn 150ms linear both;
+}
+
+:root[data-ui-theme="phantom-china"] .modalPanel {
+  animation: pcModalCutIn 260ms var(--pc-ease-back) both;
+}
+
+:root[data-ui-theme="phantom-china"] .drawer {
+  animation: pcDrawerCutIn 260ms var(--pc-ease-sharp) both;
+}
+
+:root[data-ui-theme="phantom-china"] .dataNotice,
+:root[data-ui-theme="phantom-china"] .taskNotice,
+:root[data-ui-theme="phantom-china"] .formError,
+:root[data-ui-theme="phantom-china"] .alertBanner {
+  animation: pcNoticeIn 240ms var(--pc-ease-sharp) both;
+  border: var(--pc-border-normal) solid var(--pc-border);
+  box-shadow: var(--pc-shadow-hard-xs);
+}
+
+:root[data-ui-theme="phantom-china"] .spinner {
+  border-radius: 0;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+@keyframes pcSideCut {
+  from {
+    opacity: 0;
+    transform: translateX(-42px) skewX(-5deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) skewX(0);
+  }
+}
+
+@keyframes pcPanelStrike {
+  0% {
+    opacity: 0;
+    transform: translate(-22px, -16px) rotate(-2deg);
+  }
+  72% {
+    opacity: 1;
+    transform: translate(5px, 3px) rotate(0.6deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0) rotate(0);
+  }
+}
+
+@keyframes pcRiseCut {
+  from {
+    opacity: 0;
+    transform: translateY(22px) rotate(1deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+}
+
+@keyframes pcCardLanded {
+  0% {
+    opacity: 0.62;
+    transform: translate(24px, -18px) rotate(3deg) scale(0.95);
+  }
+  58% {
+    opacity: 1;
+    transform: translate(-5px, 3px) rotate(-1.2deg) scale(1.015);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0) rotate(0) scale(1);
+  }
+}
+
+@keyframes pcBackdropIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pcModalCutIn {
+  from {
+    opacity: 0;
+    transform: translate(26px, -18px) rotate(2deg) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0) rotate(0) scale(1);
+  }
+}
+
+@keyframes pcDrawerCutIn {
+  from {
+    opacity: 0;
+    transform: translateX(80px) skewX(-4deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) skewX(0);
+  }
+}
+
+@keyframes pcNoticeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-18px) skewX(-8deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) skewX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-ui-theme="phantom-china"] *,
+  :root[data-ui-theme="phantom-china"] *::before,
+  :root[data-ui-theme="phantom-china"] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

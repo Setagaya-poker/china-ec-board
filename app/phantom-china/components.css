@@ -1,0 +1,345 @@
+:root[data-ui-theme="phantom-china"] button {
+  background: var(--pc-surface);
+  border: var(--pc-border-normal) solid var(--pc-border);
+  box-shadow: var(--pc-shadow-hard-xs);
+  color: var(--pc-primary-black);
+  font-weight: 900;
+  min-height: 38px;
+  padding: 8px 12px;
+  transform: skewX(-6deg);
+  transition: transform var(--pc-motion-fast) var(--pc-ease-sharp), box-shadow var(--pc-motion-fast) var(--pc-ease-sharp), background var(--pc-motion-fast), color var(--pc-motion-fast);
+}
+
+:root[data-ui-theme="phantom-china"] button:hover {
+  background: var(--pc-surface-strong);
+  box-shadow: var(--pc-shadow-hard-sm);
+  transform: translate(-2px, -2px) skewX(-6deg);
+}
+
+:root[data-ui-theme="phantom-china"] button:active {
+  box-shadow: 1px 1px 0 var(--pc-border);
+  transform: translate(3px, 3px) skewX(-6deg);
+}
+
+:root[data-ui-theme="phantom-china"] button:focus-visible,
+:root[data-ui-theme="phantom-china"] a:focus-visible,
+:root[data-ui-theme="phantom-china"] input:focus-visible,
+:root[data-ui-theme="phantom-china"] select:focus-visible,
+:root[data-ui-theme="phantom-china"] textarea:focus-visible {
+  outline: var(--pc-border-thick) solid var(--pc-focus);
+  outline-offset: 3px;
+}
+
+:root[data-ui-theme="phantom-china"] .primary {
+  background: var(--pc-accent);
+  color: var(--pc-text-inverse);
+}
+
+:root[data-ui-theme="phantom-china"] .danger,
+:root[data-ui-theme="phantom-china"] .iconDeleteButton,
+:root[data-ui-theme="phantom-china"] .miniTaskDelete {
+  color: var(--pc-danger);
+}
+
+:root[data-ui-theme="phantom-china"] .kanban {
+  gap: 20px;
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
+  padding: 6px 8px 18px 0;
+  scroll-snap-type: x proximity;
+}
+
+:root[data-ui-theme="phantom-china"] .kanban.withCompleted {
+  grid-template-columns: repeat(4, minmax(250px, 1fr));
+}
+
+:root[data-ui-theme="phantom-china"] .column {
+  background:
+    linear-gradient(180deg, rgba(255, 250, 242, 0.78), rgba(244, 238, 229, 0.9)),
+    repeating-linear-gradient(135deg, rgba(177, 137, 68, 0.14) 0 2px, transparent 2px 18px);
+  border: var(--pc-border-thick) solid var(--pc-border);
+  box-shadow: var(--pc-shadow-hard-sm);
+  clip-path: polygon(3% 0, 100% 0, 97% 94%, 88% 100%, 0 100%, 0 7%);
+  min-height: 66vh;
+  padding: 16px 13px 14px;
+  scroll-snap-align: start;
+  transition: transform var(--pc-motion-fast) var(--pc-ease-sharp), box-shadow var(--pc-motion-fast) var(--pc-ease-sharp), background var(--pc-motion-fast);
+}
+
+:root[data-ui-theme="phantom-china"] .column:nth-child(2) {
+  transform: translateY(8px);
+}
+
+:root[data-ui-theme="phantom-china"] .column:nth-child(3) {
+  transform: translateY(-4px);
+}
+
+:root[data-ui-theme="phantom-china"] .column:hover {
+  box-shadow: var(--pc-shadow-hard-md);
+}
+
+:root[data-ui-theme="phantom-china"] .columnHeader {
+  background: var(--pc-primary-black);
+  border: var(--pc-border-normal) solid var(--pc-border);
+  box-shadow: 5px 5px 0 var(--pc-secondary);
+  color: var(--pc-text-inverse);
+  margin: -6px -4px 16px;
+  padding: 10px;
+  transform: rotate(-1.5deg) skewX(-5deg);
+}
+
+:root[data-ui-theme="phantom-china"] .columnHeader h3 {
+  color: var(--pc-text-inverse);
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 0.9;
+  text-shadow: 3px 3px 0 var(--pc-primary);
+}
+
+:root[data-ui-theme="phantom-china"] .columnHeader button,
+:root[data-ui-theme="phantom-china"] .routineAdd {
+  background: var(--pc-secondary-bright);
+  font-size: 12px;
+  min-height: 32px;
+  padding: 5px 9px;
+}
+
+:root[data-ui-theme="phantom-china"] .card {
+  background: var(--pc-surface);
+  border: var(--pc-border-normal) solid var(--pc-border);
+  box-shadow: var(--pc-shadow-hard-xs);
+  clip-path: polygon(0 0, 98% 0, 100% 88%, 94% 100%, 0 100%);
+  margin-bottom: 14px;
+  max-height: 268px;
+  padding: 13px 12px 10px;
+  position: relative;
+  transition: transform var(--pc-motion-fast) var(--pc-ease-sharp), box-shadow var(--pc-motion-fast) var(--pc-ease-sharp), background var(--pc-motion-fast), border-color var(--pc-motion-fast);
+}
+
+:root[data-ui-theme="phantom-china"] .card::before {
+  background: var(--pc-primary);
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--pc-motion-fast) var(--pc-ease-sharp);
+  width: 6px;
+}
+
+:root[data-ui-theme="phantom-china"] .card:hover {
+  box-shadow: var(--pc-shadow-hard-md);
+  transform: translate(-5px, -4px) rotate(-0.8deg);
+}
+
+:root[data-ui-theme="phantom-china"] .card:hover::before,
+:root[data-ui-theme="phantom-china"] .card.selected::before {
+  transform: scaleY(1);
+}
+
+:root[data-ui-theme="phantom-china"] .card.selected {
+  background: #fff7df;
+  border: var(--pc-border-thick) solid var(--pc-primary-black);
+  box-shadow: 7px 7px 0 var(--pc-secondary-bright), 13px 13px 0 var(--pc-primary-black);
+  padding: 11px 10px 8px;
+  transform: rotate(-0.7deg);
+}
+
+:root[data-ui-theme="phantom-china"] .cardTopline {
+  align-items: start;
+  border-bottom: var(--pc-border-normal) solid rgba(34, 35, 38, 0.16);
+  margin-bottom: 8px;
+  padding-bottom: 7px;
+}
+
+:root[data-ui-theme="phantom-china"] .card h4 {
+  font-family: "Arial Black", Impact, "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.12;
+}
+
+:root[data-ui-theme="phantom-china"] .dueText {
+  color: var(--pc-text-muted);
+  font-family: Arial, "Hiragino Sans", sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+:root[data-ui-theme="phantom-china"] .routineBadge {
+  background: var(--pc-primary-black);
+  border: var(--pc-border-thin) solid var(--pc-secondary-bright);
+  color: var(--pc-text-inverse);
+  font-size: 10px;
+}
+
+:root[data-ui-theme="phantom-china"] .assigneeLine span,
+:root[data-ui-theme="phantom-china"] .tags span,
+:root[data-ui-theme="phantom-china"] .tagPicker span,
+:root[data-ui-theme="phantom-china"] .tagPreview {
+  border: var(--pc-border-thin) solid currentColor !important;
+  box-shadow: 2px 2px 0 rgba(34, 35, 38, 0.18);
+  clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
+  font-size: 10px;
+  font-weight: 900;
+  padding: 2px 7px;
+}
+
+:root[data-ui-theme="phantom-china"] .cardBodyPreview {
+  color: var(--pc-text);
+  font-family: Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
+  font-size: 12px;
+  line-height: 1.48;
+  opacity: 0.86;
+}
+
+:root[data-ui-theme="phantom-china"] .cardDocLinks a {
+  background: var(--pc-primary-black);
+  border: var(--pc-border-thin) solid var(--pc-border);
+  color: var(--pc-text-inverse);
+  transform: skewX(-7deg);
+}
+
+:root[data-ui-theme="phantom-china"] .cardActions button {
+  background: transparent;
+  box-shadow: none;
+  min-height: 26px;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskArea,
+:root[data-ui-theme="phantom-china"] .routineArea,
+:root[data-ui-theme="phantom-china"] .panel {
+  background:
+    linear-gradient(115deg, var(--pc-surface) 0 82%, rgba(216, 185, 83, 0.38) 82% 100%);
+  border: var(--pc-border-thick) solid var(--pc-border);
+  box-shadow: var(--pc-shadow-hard-sm);
+  clip-path: polygon(0 0, 98% 0, 100% 82%, 97% 100%, 0 100%);
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskArea {
+  border-left: var(--pc-border-heavy) solid var(--pc-accent);
+  padding: 16px 16px 16px 20px;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskArea h3,
+:root[data-ui-theme="phantom-china"] .routineArea h3,
+:root[data-ui-theme="phantom-china"] .panel h3 {
+  font-size: 27px;
+  font-weight: 900;
+  line-height: 0.95;
+  text-transform: uppercase;
+  transform: skewX(-7deg);
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskList {
+  border-top: var(--pc-border-normal) solid var(--pc-border);
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskRow {
+  border-bottom: var(--pc-border-thin) solid rgba(34, 35, 38, 0.22);
+  font-family: Arial, "Hiragino Sans", sans-serif;
+  transition: background var(--pc-motion-fast), transform var(--pc-motion-fast) var(--pc-ease-sharp);
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskRow:hover {
+  background: rgba(216, 185, 83, 0.22);
+  transform: translateX(5px);
+}
+
+:root[data-ui-theme="phantom-china"] input,
+:root[data-ui-theme="phantom-china"] select,
+:root[data-ui-theme="phantom-china"] textarea {
+  background: var(--pc-surface);
+  border: var(--pc-border-normal) solid var(--pc-border);
+  box-shadow: 3px 3px 0 rgba(34, 35, 38, 0.2);
+  color: var(--pc-text);
+  font-family: Arial, "Hiragino Sans", sans-serif;
+  transition: transform var(--pc-motion-fast) var(--pc-ease-sharp), box-shadow var(--pc-motion-fast) var(--pc-ease-sharp), border-color var(--pc-motion-fast);
+}
+
+:root[data-ui-theme="phantom-china"] input:focus,
+:root[data-ui-theme="phantom-china"] select:focus,
+:root[data-ui-theme="phantom-china"] textarea:focus {
+  border-color: var(--pc-focus);
+  box-shadow: 6px 6px 0 var(--pc-focus);
+  outline: none;
+  transform: translate(-2px, -2px);
+}
+
+:root[data-ui-theme="phantom-china"] label,
+:root[data-ui-theme="phantom-china"] .fieldLabel {
+  color: var(--pc-primary-black);
+  font-family: Arial, "Hiragino Sans", sans-serif;
+  font-weight: 900;
+}
+
+:root[data-ui-theme="phantom-china"] .drawer {
+  border-left: var(--pc-border-heavy) solid var(--pc-border);
+  box-shadow: -12px 0 0 var(--pc-secondary), -22px 0 0 var(--pc-border);
+  clip-path: polygon(7% 0, 100% 0, 100% 100%, 0 100%, 0 8%);
+  width: min(66vw, 980px);
+}
+
+:root[data-ui-theme="phantom-china"] .drawer h2,
+:root[data-ui-theme="phantom-china"] .modalPanel h2 {
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 0.88;
+  text-shadow: 2px 2px 0 var(--pc-secondary-bright);
+  transform: skewX(-8deg);
+}
+
+:root[data-ui-theme="phantom-china"] .authPanel {
+  max-width: 720px;
+}
+
+:root[data-ui-theme="phantom-china"] .authPanel h2 {
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  letter-spacing: 0;
+  line-height: 1.08;
+  max-width: 100%;
+  text-wrap: balance;
+  transform: rotate(-1deg);
+  word-break: keep-all;
+}
+
+:root[data-ui-theme="phantom-china"] .modalBackdrop {
+  background: rgba(23, 35, 26, 0.72);
+}
+
+:root[data-ui-theme="phantom-china"] .modalPanel {
+  border: var(--pc-border-heavy) solid var(--pc-border);
+  box-shadow: var(--pc-shadow-hard-lg);
+  clip-path: polygon(4% 0, 100% 0, 97% 92%, 89% 100%, 0 100%, 0 8%);
+}
+
+:root[data-ui-theme="phantom-china"] .formActions {
+  border-top: var(--pc-border-normal) solid var(--pc-border);
+}
+
+:root[data-ui-theme="phantom-china"] .candidateGroup,
+:root[data-ui-theme="phantom-china"] .candidateItem {
+  border: var(--pc-border-normal) solid var(--pc-border);
+  box-shadow: var(--pc-shadow-hard-xs);
+}
+
+:root[data-ui-theme="phantom-china"] .themeSwitcher {
+  background: var(--pc-secondary-bright);
+  bottom: 18px;
+  font-size: 11px;
+  gap: 8px;
+  min-height: 34px;
+  padding: 6px 9px;
+  position: fixed;
+  right: 18px;
+  z-index: 60;
+}
+
+:root[data-ui-theme="phantom-china"] .themeSwitcher strong {
+  background: var(--pc-primary-black);
+  color: var(--pc-text-inverse);
+  padding: 2px 5px;
+}

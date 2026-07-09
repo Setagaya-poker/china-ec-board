@@ -1,0 +1,28 @@
+:root[data-ui-theme="phantom-china"] body {
+  min-width: 1180px;
+  overflow-x: auto;
+}
+
+:root[data-ui-theme="phantom-china"] main {
+  min-width: 1180px;
+}
+
+:root[data-ui-theme="phantom-china"] .content {
+  min-width: 0;
+}
+
+:root[data-ui-theme="phantom-china"] .kanban {
+  min-width: 830px;
+}
+
+:root[data-ui-theme="phantom-china"] .kanban.withCompleted {
+  min-width: 980px;
+}
+
+:root[data-ui-theme="phantom-china"] .drawer {
+  min-width: 720px;
+}
+
+:root[data-ui-theme="phantom-china"] .modalPanel.large {
+  min-width: min(960px, calc(100vw - 48px));
+}

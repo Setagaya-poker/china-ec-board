@@ -42,6 +42,25 @@ button:hover {
   background: #f3e5ad;
 }
 
+.themeSwitcher {
+  align-items: center;
+  bottom: 18px;
+  display: inline-flex;
+  font-size: 11px;
+  gap: 7px;
+  min-height: 34px;
+  padding: 6px 9px;
+  position: fixed;
+  right: 18px;
+  z-index: 60;
+}
+
+.themeSwitcher strong {
+  background: var(--ink);
+  color: var(--panel);
+  padding: 2px 5px;
+}
+
 main {
   display: grid;
   grid-template-columns: 260px 1fr;
