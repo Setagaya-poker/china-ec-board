@@ -55,14 +55,18 @@
 
 :root[data-ui-theme="phantom-china"] .column {
   background:
-    linear-gradient(180deg, rgba(255, 250, 242, 0.78), rgba(244, 238, 229, 0.9)),
-    repeating-linear-gradient(135deg, rgba(177, 137, 68, 0.14) 0 2px, transparent 2px 18px);
-  border: var(--pc-border-thick) solid var(--pc-border);
-  box-shadow: var(--pc-shadow-hard-sm);
-  clip-path: none;
+    linear-gradient(180deg, rgba(23, 35, 26, 0.96), rgba(23, 35, 26, 0.88)),
+    radial-gradient(circle at 16% 12%, rgba(216, 185, 83, 0.22) 0 2px, transparent 2px 12px);
+  border: 5px solid var(--pc-surface);
+  box-shadow:
+    4px 4px 0 var(--pc-border),
+    10px 10px 0 var(--pc-secondary-bright),
+    16px 16px 0 var(--pc-border);
+  clip-path: polygon(2% 0, 100% 1%, 97% 98%, 0 100%);
+  isolation: isolate;
   min-height: 66vh;
   overflow: visible;
-  padding: 16px 18px 20px;
+  padding: 16px 16px 20px;
   position: relative;
   scroll-snap-align: start;
   transition: transform var(--pc-motion-fast) var(--pc-ease-sharp), box-shadow var(--pc-motion-fast) var(--pc-ease-sharp), background var(--pc-motion-fast);
@@ -78,64 +82,113 @@
 }
 
 :root[data-ui-theme="phantom-china"] .column:hover {
-  box-shadow: var(--pc-shadow-hard-md);
+  box-shadow:
+    5px 5px 0 var(--pc-border),
+    13px 13px 0 var(--pc-secondary-bright),
+    22px 22px 0 var(--pc-border);
   z-index: 40;
 }
 
 :root[data-ui-theme="phantom-china"] .columnHeader {
-  background: var(--pc-primary-black);
-  border: var(--pc-border-normal) solid var(--pc-border);
-  box-shadow: 5px 5px 0 var(--pc-secondary);
+  background:
+    linear-gradient(110deg, rgba(93, 129, 96, 0.34) 0 20%, transparent 20% 76%, rgba(216, 185, 83, 0.22) 76% 100%),
+    var(--pc-primary-black);
+  border: var(--pc-border-thick) solid var(--pc-border);
+  box-shadow: 5px 5px 0 var(--pc-secondary), 9px 9px 0 rgba(0, 0, 0, 0.62);
+  clip-path: polygon(0 0, 98% 0, 94% 78%, 86% 100%, 0 92%);
   color: var(--pc-text-inverse);
-  margin: -6px -2px 16px;
-  padding: 10px;
-  transform: rotate(-1.5deg) skewX(-5deg);
+  margin: -4px -4px 18px;
+  min-height: 58px;
+  padding: 10px 12px 12px;
+  position: relative;
+  transform: rotate(-1.2deg);
+}
+
+:root[data-ui-theme="phantom-china"] .columnHeader::before {
+  color: var(--pc-secondary-bright);
+  content: "✦";
+  font-size: 28px;
+  left: 10px;
+  line-height: 1;
+  position: absolute;
+  text-shadow: 2px 2px 0 var(--pc-border);
+  top: 14px;
 }
 
 :root[data-ui-theme="phantom-china"] .columnHeader h3 {
   color: var(--pc-text-inverse);
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 900;
   line-height: 0.9;
-  text-shadow: 3px 3px 0 var(--pc-primary);
+  padding-left: 34px;
+  text-shadow: 3px 3px 0 var(--pc-border), 5px 5px 0 var(--pc-secondary);
 }
 
 :root[data-ui-theme="phantom-china"] .columnHeader button,
 :root[data-ui-theme="phantom-china"] .routineAdd {
   background: var(--pc-secondary-bright);
+  border: var(--pc-border-normal) solid var(--pc-border);
+  box-shadow: 4px 4px 0 var(--pc-border);
   font-size: 12px;
   min-height: 32px;
   padding: 5px 9px;
 }
 
 :root[data-ui-theme="phantom-china"] .card {
-  background: var(--pc-surface);
-  border: var(--pc-border-normal) solid var(--pc-border);
-  box-shadow: var(--pc-shadow-hard-xs);
-  clip-path: none;
-  margin-bottom: 14px;
+  background:
+    radial-gradient(circle at 94% 78%, rgba(177, 137, 68, 0.26) 0 1.5px, transparent 1.5px 7px),
+    linear-gradient(112deg, rgba(255, 250, 242, 0.98) 0 78%, rgba(216, 185, 83, 0.18) 78% 100%),
+    var(--pc-surface);
+  border: var(--pc-border-thick) solid var(--pc-border);
+  box-shadow:
+    inset 0 0 0 2px rgba(216, 185, 83, 0.42),
+    5px 5px 0 var(--pc-secondary),
+    9px 9px 0 var(--pc-border);
+  clip-path: polygon(0 0, 98% 0, 100% 82%, 94% 100%, 1% 100%, 0 8%);
+  isolation: isolate;
+  margin-bottom: 18px;
   max-height: 268px;
   overflow: visible;
-  padding: 13px 14px 12px;
+  padding: 15px 16px 14px;
   position: relative;
   transition: transform var(--pc-motion-fast) var(--pc-ease-sharp), box-shadow var(--pc-motion-fast) var(--pc-ease-sharp), background var(--pc-motion-fast), border-color var(--pc-motion-fast);
 }
 
 :root[data-ui-theme="phantom-china"] .card::before {
-  background: var(--pc-primary);
+  background: linear-gradient(180deg, var(--pc-primary), var(--pc-secondary-bright));
   content: "";
-  height: 100%;
-  left: 0;
+  inset: 0 auto 0 0;
   position: absolute;
-  top: 0;
   transform: scaleY(0);
   transform-origin: top;
   transition: transform var(--pc-motion-fast) var(--pc-ease-sharp);
-  width: 6px;
+  width: 7px;
+  z-index: 1;
+}
+
+:root[data-ui-theme="phantom-china"] .card::after {
+  background:
+    linear-gradient(150deg, transparent 0 78%, var(--pc-border) 78% 82%, var(--pc-secondary-bright) 82% 100%);
+  bottom: -1px;
+  content: "";
+  height: 34px;
+  pointer-events: none;
+  position: absolute;
+  right: -1px;
+  width: 52px;
+  z-index: 1;
+}
+
+:root[data-ui-theme="phantom-china"] .card > * {
+  position: relative;
+  z-index: 2;
 }
 
 :root[data-ui-theme="phantom-china"] .card:hover {
-  box-shadow: var(--pc-shadow-hard-md);
+  box-shadow:
+    inset 0 0 0 2px rgba(216, 185, 83, 0.55),
+    7px 7px 0 var(--pc-secondary-bright),
+    13px 13px 0 var(--pc-border);
   transform: translate(-3px, -3px) rotate(-0.5deg);
   z-index: 8;
 }
@@ -148,7 +201,10 @@
 :root[data-ui-theme="phantom-china"] .card.selected {
   background: #fff7df;
   border: var(--pc-border-thick) solid var(--pc-primary-black);
-  box-shadow: 5px 5px 0 var(--pc-secondary-bright), 10px 10px 0 var(--pc-primary-black);
+  box-shadow:
+    inset 0 0 0 2px var(--pc-secondary-bright),
+    6px 6px 0 var(--pc-secondary-bright),
+    12px 12px 0 var(--pc-primary-black);
   padding: 11px 12px 10px;
   transform: rotate(-0.4deg);
 }
@@ -468,22 +524,40 @@
 :root[data-ui-theme="phantom-china"] .routineArea,
 :root[data-ui-theme="phantom-china"] .panel {
   background:
-    linear-gradient(115deg, var(--pc-surface) 0 82%, rgba(216, 185, 83, 0.38) 82% 100%);
-  border: var(--pc-border-thick) solid var(--pc-border);
-  box-shadow: var(--pc-shadow-hard-sm);
-  clip-path: none;
+    radial-gradient(circle at 92% 12%, rgba(216, 185, 83, 0.2) 0 2px, transparent 2px 12px),
+    linear-gradient(115deg, rgba(255, 250, 242, 0.96) 0 74%, rgba(216, 185, 83, 0.28) 74% 100%);
+  border: 5px solid var(--pc-surface);
+  box-shadow:
+    4px 4px 0 var(--pc-border),
+    10px 10px 0 var(--pc-secondary-bright),
+    16px 16px 0 var(--pc-border);
+  clip-path: polygon(1% 0, 100% 0, 98% 94%, 92% 100%, 0 100%);
   overflow: visible;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskArea {
-  border-left: var(--pc-border-heavy) solid var(--pc-accent);
-  padding: 12px 22px 14px 20px;
+  padding: 16px 22px 18px 20px;
+  position: relative;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskArea::before {
+  background:
+    linear-gradient(112deg, var(--pc-primary-black) 0 82%, var(--pc-danger) 82% 100%);
+  clip-path: polygon(0 0, 100% 0, 96% 100%, 0 86%);
+  content: "";
+  inset: 0 0 auto 0;
+  height: 68px;
+  position: absolute;
+  z-index: 0;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskArea > div:first-child {
   align-items: center;
   display: flex;
   gap: 12px;
+  min-height: 48px;
+  position: relative;
+  z-index: 1;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskArea h3,
@@ -497,13 +571,14 @@
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskArea h3 {
-  background: var(--pc-primary-black);
-  box-shadow: 5px 5px 0 var(--pc-secondary);
+  background: transparent;
+  box-shadow: none;
   color: var(--pc-text-inverse);
   display: inline-block;
+  font-size: 30px;
   padding: 7px 18px 8px 12px;
   position: relative;
-  text-shadow: 2px 2px 0 var(--pc-primary);
+  text-shadow: 3px 3px 0 var(--pc-border), 5px 5px 0 var(--pc-secondary);
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskArea h3::after {
@@ -521,22 +596,28 @@
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskList {
-  border-top: var(--pc-border-normal) solid var(--pc-border);
-  gap: 5px;
-  padding-top: 8px;
+  border-top: 0;
+  gap: 10px;
+  padding-top: 12px;
   overflow: visible;
+  position: relative;
+  z-index: 1;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow {
-  background: rgba(255, 250, 242, 0.72);
-  border: var(--pc-border-thin) solid rgba(34, 35, 38, 0.18);
-  box-shadow: 3px 3px 0 rgba(34, 35, 38, 0.12);
+  background:
+    radial-gradient(circle at 96% 80%, rgba(177, 137, 68, 0.22) 0 1px, transparent 1px 6px),
+    var(--pc-surface);
+  border: var(--pc-border-normal) solid var(--pc-border);
+  box-shadow:
+    inset 0 0 0 2px rgba(216, 185, 83, 0.32),
+    5px 5px 0 rgba(34, 35, 38, 0.72);
+  clip-path: polygon(0 0, 98% 0, 100% 76%, 96% 100%, 0 100%);
   font-family: Arial, "Hiragino Sans", sans-serif;
   gap: 10px;
-  grid-template-columns: minmax(360px, 2.2fr) 60px 82px minmax(96px, 0.42fr) minmax(104px, 0.46fr) 30px;
-  min-height: 52px;
-  padding-left: 10px;
-  padding-right: 10px;
+  grid-template-columns: minmax(360px, 2.2fr) 68px 86px minmax(108px, 0.5fr) minmax(128px, 0.62fr) 32px;
+  min-height: 64px;
+  padding: 10px 12px 10px 14px;
   position: relative;
   transition:
     background var(--pc-motion-fast),
@@ -545,11 +626,11 @@
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow::before {
-  background: var(--pc-primary);
+  background: linear-gradient(180deg, var(--pc-primary), var(--pc-secondary-bright));
   content: "";
   inset: 0 auto 0 0;
   position: absolute;
-  width: 5px;
+  width: 7px;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskOpen,
@@ -586,15 +667,19 @@
 
 :root[data-ui-theme="phantom-china"] .miniTaskMain strong {
   display: block;
-  font-size: 13px;
+  font-family: "Arial Black", "Hiragino Sans", sans-serif;
+  font-size: 15px;
   font-weight: 900;
+  line-height: 1.15;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskMain span {
+  color: var(--pc-text-muted);
   font-size: 11px;
+  font-weight: 800;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow > span {
@@ -605,17 +690,19 @@
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow > span:nth-of-type(1) {
-  background: rgba(93, 129, 96, 0.14);
-  border: var(--pc-border-thin) solid rgba(34, 35, 38, 0.18);
-  border-left: 4px solid var(--pc-primary);
+  background: var(--pc-primary-black);
+  border: var(--pc-border-thin) solid var(--pc-border);
+  box-shadow: 2px 2px 0 var(--pc-secondary);
   color: var(--pc-primary-black);
+  color: var(--pc-text-inverse);
   font-family: Arial, "Hiragino Sans", sans-serif;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 900;
   justify-self: start;
   letter-spacing: 0;
   line-height: 1.3;
   padding: 3px 7px 3px 6px;
+  transform: skewX(-8deg);
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow > span:nth-of-type(2) {
@@ -626,8 +713,10 @@
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow .assigneesText {
-  background: rgba(93, 129, 96, 0.1);
+  background: rgba(93, 129, 96, 0.14);
+  border: var(--pc-border-thin) solid rgba(34, 35, 38, 0.22);
   border-left: 4px solid var(--pc-primary);
+  box-shadow: 2px 2px 0 rgba(34, 35, 38, 0.16);
   color: var(--pc-primary-black);
   font-family: Arial, "Hiragino Sans", sans-serif;
   font-size: 11px;
@@ -636,9 +725,10 @@
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow .miniTaskTags {
-  background: rgba(216, 185, 83, 0.18);
+  background: rgba(216, 185, 83, 0.22);
   border: var(--pc-border-thin) solid rgba(34, 35, 38, 0.18);
   border-left: 4px solid var(--pc-secondary);
+  box-shadow: 2px 2px 0 rgba(34, 35, 38, 0.16);
   color: var(--pc-primary-black);
   font-family: Arial, "Hiragino Sans", sans-serif;
   font-size: 11px;
@@ -663,8 +753,12 @@
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow:hover {
-  background: rgba(216, 185, 83, 0.22);
-  box-shadow: 6px 6px 0 rgba(34, 35, 38, 0.22);
+  background:
+    radial-gradient(circle at 96% 80%, rgba(34, 35, 38, 0.16) 0 1px, transparent 1px 6px),
+    var(--pc-surface-strong);
+  box-shadow:
+    inset 0 0 0 2px var(--pc-surface),
+    8px 8px 0 var(--pc-border);
   transform: translateX(5px);
 }
 

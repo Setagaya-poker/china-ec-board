@@ -1,7 +1,9 @@
 :root[data-ui-theme="phantom-china"] body {
   background:
-    linear-gradient(112deg, rgba(23, 35, 26, 0.96) 0 22%, transparent 22% 100%),
+    linear-gradient(112deg, rgba(5, 12, 8, 0.98) 0 20%, transparent 20% 100%),
+    linear-gradient(166deg, transparent 0 78%, rgba(23, 35, 26, 0.92) 78% 100%),
     radial-gradient(circle at 78% 10%, rgba(216, 185, 83, 0.22), transparent 28%),
+    radial-gradient(circle at 4% 84%, rgba(216, 185, 83, 0.28), transparent 18%),
     repeating-linear-gradient(135deg, rgba(93, 129, 96, 0.12) 0 2px, transparent 2px 18px),
     var(--pc-bg-light);
   color: var(--pc-text);
@@ -47,7 +49,8 @@
 
 :root[data-ui-theme="phantom-china"] .sidebar {
   background:
-    linear-gradient(150deg, rgba(23, 35, 26, 0.12), rgba(23, 35, 26, 0.74)),
+    radial-gradient(circle at 35% 72%, rgba(93, 129, 96, 0.54), transparent 30%),
+    linear-gradient(150deg, rgba(23, 35, 26, 0.1), rgba(5, 12, 8, 0.9)),
     var(--pc-primary);
   border-right: var(--pc-border-heavy) solid var(--pc-border);
   clip-path: polygon(0 0, 100% 0, 94% 100%, 0 100%);
@@ -93,8 +96,12 @@
 }
 
 :root[data-ui-theme="phantom-china"] nav button {
-  background: rgba(255, 250, 242, 0.08);
-  border: var(--pc-border-normal) solid rgba(255, 250, 242, 0.42);
+  background:
+    linear-gradient(105deg, rgba(255, 250, 242, 0.12) 0 18%, transparent 18% 72%, rgba(216, 185, 83, 0.24) 72% 100%),
+    rgba(5, 12, 8, 0.62);
+  border: var(--pc-border-normal) solid var(--pc-surface);
+  box-shadow: 4px 4px 0 var(--pc-border);
+  clip-path: polygon(0 0, 100% 0, 94% 85%, 0 100%);
   color: var(--pc-text-inverse);
   font-size: 15px;
   font-weight: 900;
@@ -133,7 +140,9 @@
 :root[data-ui-theme="phantom-china"] nav button.active {
   background: var(--pc-secondary-bright);
   border-color: var(--pc-border);
-  box-shadow: var(--pc-shadow-hard-md);
+  box-shadow:
+    0 0 0 4px var(--pc-surface),
+    var(--pc-shadow-hard-md);
   color: var(--pc-primary-black);
   text-shadow: 2px 2px 0 var(--pc-surface);
   transform: translateX(18px) rotate(-2deg) skewX(-8deg);
@@ -178,14 +187,14 @@
 
 :root[data-ui-theme="phantom-china"] .toolbar h2,
 :root[data-ui-theme="phantom-china"] .panel h2 {
-  color: var(--pc-primary-black);
+  color: var(--pc-text-inverse);
   display: inline-block;
   font-size: clamp(30px, 4.1vw, 56px);
   font-weight: 900;
   letter-spacing: 0;
   line-height: 1;
   position: relative;
-  text-shadow: 3px 3px 0 var(--pc-surface), 6px 6px 0 var(--pc-secondary);
+  text-shadow: 3px 3px 0 var(--pc-border), 6px 6px 0 var(--pc-secondary);
   transform: rotate(-1.5deg) skewX(-8deg);
   z-index: 1;
 }
@@ -194,11 +203,21 @@
   padding: 10px 28px 12px 22px;
 }
 
+:root[data-ui-theme="phantom-china"] .panel h2 {
+  color: var(--pc-primary-black);
+  text-shadow: 3px 3px 0 var(--pc-surface), 6px 6px 0 var(--pc-secondary);
+}
+
 :root[data-ui-theme="phantom-china"] .toolbar h2::before {
   background:
-    linear-gradient(100deg, var(--pc-surface) 0 78%, rgba(216, 185, 83, 0.9) 78% 100%);
-  border: var(--pc-border-thick) solid var(--pc-border);
-  box-shadow: 8px 8px 0 var(--pc-primary-black);
+    radial-gradient(circle at 92% 24%, rgba(216, 185, 83, 0.34) 0 2px, transparent 2px 10px),
+    linear-gradient(100deg, var(--pc-primary-black) 0 70%, rgba(216, 185, 83, 0.9) 70% 100%);
+  border: 5px solid var(--pc-surface);
+  box-shadow:
+    4px 4px 0 var(--pc-border),
+    12px 12px 0 var(--pc-danger),
+    18px 18px 0 var(--pc-border);
+  clip-path: polygon(1% 0, 96% 0, 100% 22%, 94% 100%, 0 92%);
   content: "";
   inset: 0;
   position: absolute;
