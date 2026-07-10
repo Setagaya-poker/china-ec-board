@@ -411,6 +411,12 @@
   padding: 12px 22px 14px 20px;
 }
 
+:root[data-ui-theme="phantom-china"] .miniTaskArea > div:first-child {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+}
+
 :root[data-ui-theme="phantom-china"] .miniTaskArea h3,
 :root[data-ui-theme="phantom-china"] .routineArea h3,
 :root[data-ui-theme="phantom-china"] .panel h3 {
@@ -419,6 +425,30 @@
   line-height: 0.95;
   text-transform: uppercase;
   transform: skewX(-7deg);
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskArea h3 {
+  background: var(--pc-primary-black);
+  box-shadow: 5px 5px 0 var(--pc-secondary);
+  color: var(--pc-text-inverse);
+  display: inline-block;
+  padding: 7px 18px 8px 12px;
+  position: relative;
+  text-shadow: 2px 2px 0 var(--pc-primary);
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskArea h3::after {
+  background: var(--pc-accent);
+  color: var(--pc-text-inverse);
+  content: "TASK";
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+  padding: 4px 7px;
+  position: absolute;
+  right: -44px;
+  top: 50%;
+  transform: translateY(-50%) skewX(-4deg);
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskList {
