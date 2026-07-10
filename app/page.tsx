@@ -1566,6 +1566,7 @@ export default function Home() {
                           tagColors={tagColors}
                           isAnimated={animatedCardId === card.id}
                           onOpen={() => setSelectedCardId(card.id)}
+                          onOpenTask={(taskId) => setSelectedMiniTaskId(taskId)}
                           onReorder={(direction) => reorderCard(card.id, direction)}
                           onDropOnCard={(draggedId) => moveCardToPosition(draggedId, status, card.id)}
                         />
@@ -1654,6 +1655,7 @@ export default function Home() {
                         tagColors={tagColors}
                         isAnimated={animatedCardId === card.id}
                         onOpen={() => setSelectedCardId(card.id)}
+                        onOpenTask={(taskId) => setSelectedMiniTaskId(taskId)}
                         onReorder={(direction) => reorderCard(card.id, direction)}
                         onDropOnCard={(draggedId) => moveCardToPosition(draggedId, card.status, card.id)}
                       />
@@ -2394,6 +2396,7 @@ function CardTile({
   tags,
   tagColors,
   onOpen,
+  onOpenTask,
   onReorder,
   onDropOnCard
 }: {
@@ -2404,6 +2407,7 @@ function CardTile({
   tags: string[];
   tagColors: Record<string, TagColor>;
   onOpen: () => void;
+  onOpenTask: (taskId: string) => void;
   onReorder: (direction: -1 | 1) => void;
   onDropOnCard: (draggedId: string) => void;
 }) {
@@ -2471,14 +2475,22 @@ function CardTile({
         <button aria-label="上へ移動" title="上へ移動" onClick={(event) => { event.stopPropagation(); onReorder(-1); }}>↑</button>
         <button aria-label="下へ移動" title="下へ移動" onClick={(event) => { event.stopPropagation(); onReorder(1); }}>↓</button>
       </div>
-      <aside className={linkedTasks.length ? "cardTaskBurst" : "cardTaskBurst empty"} aria-hidden="true">
+      <aside className={linkedTasks.length ? "cardTaskBurst" : "cardTaskBurst empty"} aria-label={`${card.title}に紐づくタスク`}>
         <span className="cardTaskBurstLabel">LINKED TASKS</span>
         {linkedTasks.length ? (
           linkedTasks.slice(0, 5).map((task) => (
-            <div className="cardTaskBurstItem" key={task.id}>
+            <button
+              className="cardTaskBurstItem"
+              key={task.id}
+              onClick={(event) => {
+                event.stopPropagation();
+                onOpenTask(task.id);
+              }}
+              type="button"
+            >
               <strong>{task.title}</strong>
               <span>{task.status}{task.dueDate ? ` / ${formatDueDate(task.dueDate)}` : ""}</span>
-            </div>
+            </button>
           ))
         ) : (
           <div className="cardTaskBurstItem">

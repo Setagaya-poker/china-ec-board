@@ -276,7 +276,7 @@
   min-width: 238px;
   opacity: 0;
   padding: 10px;
-  pointer-events: none;
+  pointer-events: auto;
   position: absolute;
   top: 8px;
   transform: translateX(-10px) skewX(-6deg) scale(0.96);
@@ -332,11 +332,30 @@
   animation: pcTaskBurst 220ms var(--pc-ease-sharp) both;
   background: var(--pc-surface);
   border: var(--pc-border-thin) solid var(--pc-border);
+  box-shadow: 3px 3px 0 rgba(34, 35, 38, 0.24);
   color: var(--pc-text);
+  cursor: pointer;
   display: grid;
   gap: 2px;
+  min-height: auto;
   padding: 7px 8px;
+  text-align: left;
   transform: skewX(6deg);
+  transition:
+    background var(--pc-motion-fast),
+    box-shadow var(--pc-motion-fast) var(--pc-ease-sharp),
+    transform var(--pc-motion-fast) var(--pc-ease-sharp);
+}
+
+:root[data-ui-theme="phantom-china"] button.cardTaskBurstItem:hover {
+  background: var(--pc-secondary-bright);
+  box-shadow: 6px 6px 0 var(--pc-border);
+  transform: translate(-2px, -2px) skewX(6deg);
+}
+
+:root[data-ui-theme="phantom-china"] button.cardTaskBurstItem:active {
+  box-shadow: 1px 1px 0 var(--pc-border);
+  transform: translate(2px, 2px) skewX(6deg);
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(3) {
@@ -487,27 +506,33 @@
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow > span:nth-of-type(1) {
-  background: var(--pc-primary-black);
-  border: var(--pc-border-thin) solid var(--pc-border);
-  color: var(--pc-text-inverse);
+  background: rgba(93, 129, 96, 0.14);
+  border: var(--pc-border-thin) solid rgba(34, 35, 38, 0.18);
+  border-left: 4px solid var(--pc-primary);
+  color: var(--pc-primary-black);
+  font-family: Arial, "Hiragino Sans", sans-serif;
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 800;
   justify-self: start;
-  padding: 3px 7px;
+  letter-spacing: 0;
+  line-height: 1.3;
+  padding: 3px 7px 3px 6px;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow > span:nth-of-type(2) {
   color: var(--pc-text);
+  font-family: Arial, "Hiragino Sans", sans-serif;
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 800;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow .assigneesText {
   background: rgba(93, 129, 96, 0.1);
   border-left: 4px solid var(--pc-primary);
   color: var(--pc-primary-black);
+  font-family: Arial, "Hiragino Sans", sans-serif;
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 800;
   padding: 3px 6px;
 }
 
@@ -516,8 +541,9 @@
   border: var(--pc-border-thin) solid rgba(34, 35, 38, 0.18);
   border-left: 4px solid var(--pc-secondary);
   color: var(--pc-primary-black);
+  font-family: Arial, "Hiragino Sans", sans-serif;
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 800;
   padding: 3px 6px;
 }
 
