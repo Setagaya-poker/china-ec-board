@@ -182,14 +182,25 @@
 :root[data-ui-theme="phantom-china"] .tags span,
 :root[data-ui-theme="phantom-china"] .tagPicker span,
 :root[data-ui-theme="phantom-china"] .tagPreview {
-  border: var(--pc-border-thin) solid currentColor !important;
-  box-shadow: 2px 2px 0 rgba(34, 35, 38, 0.18);
+  border: var(--pc-border-thin) solid rgba(34, 35, 38, 0.22) !important;
+  border-left: 4px solid currentColor !important;
+  box-shadow: 2px 2px 0 rgba(34, 35, 38, 0.12);
   clip-path: none;
   font-size: 10px;
   font-weight: 900;
-  line-height: 1.35;
-  padding: 2px 8px;
-  transform: skewX(-8deg);
+  line-height: 1.4;
+  padding: 2px 7px 2px 6px;
+  transform: none;
+}
+
+:root[data-ui-theme="phantom-china"] .assigneeLine {
+  align-items: center;
+  margin-top: 0;
+}
+
+:root[data-ui-theme="phantom-china"] .assigneeLine::before {
+  font-size: 10px;
+  line-height: 1.4;
 }
 
 :root[data-ui-theme="phantom-china"] .tagPicker span,
