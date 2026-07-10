@@ -408,13 +408,13 @@
 
 :root[data-ui-theme="phantom-china"] .miniTaskArea {
   border-left: var(--pc-border-heavy) solid var(--pc-accent);
-  padding: 16px 22px 18px 20px;
+  padding: 12px 22px 14px 20px;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskArea h3,
 :root[data-ui-theme="phantom-china"] .routineArea h3,
 :root[data-ui-theme="phantom-china"] .panel h3 {
-  font-size: 27px;
+  font-size: 24px;
   font-weight: 900;
   line-height: 0.95;
   text-transform: uppercase;

@@ -1531,7 +1531,6 @@ export default function Home() {
             <header className="toolbar">
               <div>
                 <h2>施策ダッシュボード</h2>
-                <p>追加したい列から案件を登録します。</p>
               </div>
               <button onClick={() => setShowCompleted((current) => !current)}>
                 {showCompleted ? "完了を隠す" : "完了を表示"}
@@ -1577,7 +1576,6 @@ export default function Home() {
                 <section className="miniTaskArea">
                   <div>
                     <h3>タスク</h3>
-                    <p>施策カードにするほどではない、小さな作業を残します。</p>
                   </div>
                   <div className="miniTaskActions">
                     <button
