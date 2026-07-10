@@ -265,21 +265,21 @@
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurst {
-  --burst-panel-rotate: -3deg;
-  background: var(--pc-primary-black);
-  border: var(--pc-border-normal) solid var(--pc-border);
-  box-shadow: 7px 7px 0 var(--pc-secondary-bright), 12px 12px 0 var(--pc-border);
+  --burst-panel-rotate: -5deg;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
   color: var(--pc-text-inverse);
   display: grid;
-  gap: 8px;
-  left: calc(100% + 14px);
-  max-width: 320px;
-  min-width: 268px;
+  gap: 10px;
+  left: calc(100% + 18px);
+  max-width: 360px;
+  min-width: 308px;
   opacity: 0;
-  padding: 12px 18px 12px 14px;
+  padding: 16px 20px 18px;
   pointer-events: auto;
   position: absolute;
-  top: 8px;
+  top: 2px;
   transform: translateX(-10px) rotate(var(--burst-panel-rotate)) scale(0.96);
   transform-origin: left top;
   transition:
@@ -291,14 +291,19 @@
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurst::before {
   background:
-    linear-gradient(90deg, var(--pc-accent) 0 5px, transparent 5px),
-    linear-gradient(108deg, rgba(255, 250, 242, 0.06) 0 62%, rgba(216, 185, 83, 0.14) 62% 100%);
-  border: var(--pc-border-thin) solid rgba(255, 250, 242, 0.18);
+    radial-gradient(circle at 15% 18%, rgba(216, 185, 83, 0.22) 0 2px, transparent 2px 9px),
+    linear-gradient(122deg, rgba(255, 250, 242, 0.08) 0 28%, transparent 28% 72%, rgba(216, 185, 83, 0.18) 72% 100%),
+    var(--pc-primary-black);
+  border: 5px solid var(--pc-surface);
+  box-shadow:
+    5px 5px 0 var(--pc-border),
+    10px 10px 0 var(--pc-secondary-bright),
+    15px 15px 0 var(--pc-border);
+  clip-path: polygon(2% 8%, 88% 0, 100% 14%, 96% 100%, 7% 94%, 0 77%);
   content: "";
-  inset: 7px 8px 7px -7px;
+  inset: 0;
   position: absolute;
-  transform: translate(4px, 4px);
-  z-index: -1;
+  z-index: 0;
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurst::after {
@@ -306,6 +311,7 @@
   inset: 0 auto 0 -18px;
   position: absolute;
   width: 18px;
+  z-index: 1;
 }
 
 :root[data-ui-theme="phantom-china"] .card:hover .cardTaskBurst,
@@ -316,16 +322,16 @@
 }
 
 :root[data-ui-theme="phantom-china"] .column:last-child .cardTaskBurst {
-  --burst-panel-rotate: 3deg;
+  --burst-panel-rotate: 5deg;
   left: auto;
-  right: calc(100% + 14px);
+  right: calc(100% + 18px);
   transform: translateX(10px) rotate(var(--burst-panel-rotate)) scale(0.96);
   transform-origin: right top;
 }
 
 :root[data-ui-theme="phantom-china"] .column:last-child .cardTaskBurst::before {
-  inset: 7px -7px 7px 8px;
-  transform: translate(-4px, 4px);
+  clip-path: polygon(12% 0, 98% 8%, 100% 77%, 93% 94%, 4% 100%, 0 14%);
+  inset: 0;
 }
 
 :root[data-ui-theme="phantom-china"] .column:last-child .cardTaskBurst::after {
@@ -338,40 +344,67 @@
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstLabel {
-  background: var(--pc-secondary-bright);
+  background: var(--pc-danger);
+  border: var(--pc-border-normal) solid var(--pc-border);
+  box-shadow: 4px 4px 0 var(--pc-border);
   color: var(--pc-primary-black);
   display: inline-block;
-  font-size: 10px;
+  font-family: "Impact", "Arial Black", "Hiragino Sans", sans-serif;
+  font-size: 16px;
   font-weight: 900;
   justify-self: start;
   letter-spacing: 0;
-  padding: 3px 6px;
+  line-height: 1;
+  padding: 7px 18px 6px 10px;
+  position: relative;
+  text-transform: uppercase;
+  transform: skewX(-12deg) translateX(-8px);
+  z-index: 2;
+}
+
+:root[data-ui-theme="phantom-china"] .cardTaskBurstLabel::after {
+  background: var(--pc-surface);
+  clip-path: polygon(50% 0, 61% 38%, 100% 50%, 61% 62%, 50% 100%, 39% 62%, 0 50%, 39% 38%);
+  content: "";
+  height: 24px;
+  position: absolute;
+  right: -20px;
+  top: -8px;
+  width: 24px;
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem {
   --burst-rotate: 0deg;
   --burst-x: 0px;
   animation: pcTaskBurst 220ms var(--pc-ease-sharp) both;
-  background: var(--pc-surface);
-  border: var(--pc-border-thin) solid var(--pc-border);
-  box-shadow: 3px 3px 0 rgba(34, 35, 38, 0.24);
+  background:
+    radial-gradient(circle at 90% 78%, rgba(177, 137, 68, 0.24) 0 1px, transparent 1px 6px),
+    var(--pc-surface);
+  border: var(--pc-border-normal) solid var(--pc-border);
+  box-shadow:
+    inset 0 0 0 2px rgba(216, 185, 83, 0.42),
+    6px 6px 0 rgba(34, 35, 38, 0.72);
   color: var(--pc-text);
   cursor: pointer;
   display: grid;
-  gap: 2px;
+  gap: 6px;
   min-height: auto;
-  padding: 7px 8px;
+  padding: 13px 14px;
+  position: relative;
   text-align: left;
   transform: translateX(var(--burst-x)) rotate(var(--burst-rotate));
   transition:
     background var(--pc-motion-fast),
     box-shadow var(--pc-motion-fast) var(--pc-ease-sharp),
     transform var(--pc-motion-fast) var(--pc-ease-sharp);
+  z-index: 2;
 }
 
 :root[data-ui-theme="phantom-china"] button.cardTaskBurstItem:hover {
   background: var(--pc-secondary-bright);
-  box-shadow: 6px 6px 0 var(--pc-border);
+  box-shadow:
+    inset 0 0 0 2px var(--pc-surface),
+    9px 9px 0 var(--pc-border);
   transform: translate(calc(var(--burst-x) - 2px), -2px) rotate(var(--burst-rotate));
 }
 
@@ -411,8 +444,9 @@
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem strong {
   display: block;
-  font-family: Arial, "Hiragino Sans", sans-serif;
-  font-size: 12px;
+  font-family: "Arial Black", "Hiragino Sans", sans-serif;
+  font-size: 15px;
+  font-weight: 900;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -421,8 +455,8 @@
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem span {
   color: var(--pc-text-muted);
   font-family: Arial, "Hiragino Sans", sans-serif;
-  font-size: 10px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 900;
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurst.empty .cardTaskBurstItem {
