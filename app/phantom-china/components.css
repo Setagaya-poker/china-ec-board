@@ -404,17 +404,34 @@
 
 :root[data-ui-theme="phantom-china"] .miniTaskList {
   border-top: var(--pc-border-normal) solid var(--pc-border);
+  gap: 5px;
+  padding-top: 8px;
   overflow: visible;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow {
-  border-bottom: var(--pc-border-thin) solid rgba(34, 35, 38, 0.22);
+  background: rgba(255, 250, 242, 0.72);
+  border: var(--pc-border-thin) solid rgba(34, 35, 38, 0.18);
+  box-shadow: 3px 3px 0 rgba(34, 35, 38, 0.12);
   font-family: Arial, "Hiragino Sans", sans-serif;
   gap: 10px;
   grid-template-columns: minmax(360px, 2.2fr) 60px 82px minmax(96px, 0.42fr) minmax(104px, 0.46fr) 30px;
+  min-height: 52px;
   padding-left: 10px;
   padding-right: 10px;
-  transition: background var(--pc-motion-fast), transform var(--pc-motion-fast) var(--pc-ease-sharp);
+  position: relative;
+  transition:
+    background var(--pc-motion-fast),
+    box-shadow var(--pc-motion-fast) var(--pc-ease-sharp),
+    transform var(--pc-motion-fast) var(--pc-ease-sharp);
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskRow::before {
+  background: var(--pc-primary);
+  content: "";
+  inset: 0 auto 0 0;
+  position: absolute;
+  width: 5px;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskOpen,
@@ -451,9 +468,15 @@
 
 :root[data-ui-theme="phantom-china"] .miniTaskMain strong {
   display: block;
+  font-size: 13px;
+  font-weight: 900;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskMain span {
+  font-size: 11px;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow > span {
@@ -461,6 +484,41 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskRow > span:nth-of-type(1) {
+  background: var(--pc-primary-black);
+  border: var(--pc-border-thin) solid var(--pc-border);
+  color: var(--pc-text-inverse);
+  font-size: 11px;
+  font-weight: 900;
+  justify-self: start;
+  padding: 3px 7px;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskRow > span:nth-of-type(2) {
+  color: var(--pc-text);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskRow .assigneesText {
+  background: rgba(93, 129, 96, 0.1);
+  border-left: 4px solid var(--pc-primary);
+  color: var(--pc-primary-black);
+  font-size: 11px;
+  font-weight: 900;
+  padding: 3px 6px;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskRow .miniTaskTags {
+  background: rgba(216, 185, 83, 0.18);
+  border: var(--pc-border-thin) solid rgba(34, 35, 38, 0.18);
+  border-left: 4px solid var(--pc-secondary);
+  color: var(--pc-primary-black);
+  font-size: 11px;
+  font-weight: 900;
+  padding: 3px 6px;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskDelete,
@@ -481,6 +539,7 @@
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow:hover {
   background: rgba(216, 185, 83, 0.22);
+  box-shadow: 6px 6px 0 rgba(34, 35, 38, 0.22);
   transform: translateX(5px);
 }
 
