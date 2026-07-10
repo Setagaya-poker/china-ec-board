@@ -111,6 +111,7 @@
   clip-path: none;
   margin-bottom: 14px;
   max-height: 268px;
+  overflow: visible;
   padding: 13px 14px 12px;
   position: relative;
   transition: transform var(--pc-motion-fast) var(--pc-ease-sharp), box-shadow var(--pc-motion-fast) var(--pc-ease-sharp), background var(--pc-motion-fast), border-color var(--pc-motion-fast);
@@ -132,6 +133,7 @@
 :root[data-ui-theme="phantom-china"] .card:hover {
   box-shadow: var(--pc-shadow-hard-md);
   transform: translate(-3px, -3px) rotate(-0.5deg);
+  z-index: 8;
 }
 
 :root[data-ui-theme="phantom-china"] .card:hover::before,
@@ -245,6 +247,118 @@
 :root[data-ui-theme="phantom-china"] .cardActions button:hover {
   box-shadow: 3px 3px 0 var(--pc-border);
   transform: translate(-1px, -1px);
+}
+
+:root[data-ui-theme="phantom-china"] .cardTaskBurst {
+  background: var(--pc-primary-black);
+  border: var(--pc-border-normal) solid var(--pc-border);
+  box-shadow: 7px 7px 0 var(--pc-secondary-bright), 12px 12px 0 var(--pc-border);
+  color: var(--pc-text-inverse);
+  display: grid;
+  gap: 7px;
+  left: calc(100% + 14px);
+  max-width: 280px;
+  min-width: 238px;
+  opacity: 0;
+  padding: 10px;
+  pointer-events: none;
+  position: absolute;
+  top: 8px;
+  transform: translateX(-10px) skewX(-6deg) scale(0.96);
+  transform-origin: left top;
+  transition:
+    opacity var(--pc-motion-fast) linear,
+    transform var(--pc-motion-normal) var(--pc-ease-back);
+  visibility: hidden;
+  z-index: 12;
+}
+
+:root[data-ui-theme="phantom-china"] .cardTaskBurst::before {
+  background: var(--pc-accent);
+  content: "";
+  height: calc(100% + 10px);
+  left: -8px;
+  position: absolute;
+  top: -5px;
+  width: 5px;
+}
+
+:root[data-ui-theme="phantom-china"] .card:hover .cardTaskBurst,
+:root[data-ui-theme="phantom-china"] .card:focus-within .cardTaskBurst {
+  opacity: 1;
+  transform: translateX(0) skewX(-6deg) scale(1);
+  visibility: visible;
+}
+
+:root[data-ui-theme="phantom-china"] .column:last-child .cardTaskBurst {
+  left: auto;
+  right: calc(100% + 14px);
+  transform: translateX(10px) skewX(-6deg) scale(0.96);
+  transform-origin: right top;
+}
+
+:root[data-ui-theme="phantom-china"] .column:last-child .card:hover .cardTaskBurst,
+:root[data-ui-theme="phantom-china"] .column:last-child .card:focus-within .cardTaskBurst {
+  transform: translateX(0) skewX(-6deg) scale(1);
+}
+
+:root[data-ui-theme="phantom-china"] .cardTaskBurstLabel {
+  background: var(--pc-secondary-bright);
+  color: var(--pc-primary-black);
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 900;
+  justify-self: start;
+  letter-spacing: 0;
+  padding: 3px 6px;
+}
+
+:root[data-ui-theme="phantom-china"] .cardTaskBurstItem {
+  animation: pcTaskBurst 220ms var(--pc-ease-sharp) both;
+  background: var(--pc-surface);
+  border: var(--pc-border-thin) solid var(--pc-border);
+  color: var(--pc-text);
+  display: grid;
+  gap: 2px;
+  padding: 7px 8px;
+  transform: skewX(6deg);
+}
+
+:root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(3) {
+  animation-delay: 35ms;
+}
+
+:root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(4) {
+  animation-delay: 70ms;
+}
+
+:root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(5) {
+  animation-delay: 105ms;
+}
+
+:root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(6) {
+  animation-delay: 140ms;
+}
+
+:root[data-ui-theme="phantom-china"] .cardTaskBurstItem strong {
+  display: block;
+  font-family: Arial, "Hiragino Sans", sans-serif;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:root[data-ui-theme="phantom-china"] .cardTaskBurstItem span {
+  color: var(--pc-text-muted);
+  font-family: Arial, "Hiragino Sans", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+:root[data-ui-theme="phantom-china"] .cardTaskBurst.empty .cardTaskBurstItem {
+  background: var(--pc-bg-light);
+  opacity: 0.82;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskArea,
@@ -429,37 +543,39 @@
 }
 
 :root[data-ui-theme="phantom-china"] .micButton {
-  background: var(--pc-surface-strong);
-  border: var(--pc-border-normal) solid var(--pc-border);
-  box-shadow: 4px 4px 0 var(--pc-border);
-  color: var(--pc-primary-black);
-  height: 38px;
-  min-height: 38px;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--pc-primary);
+  height: 36px;
+  min-height: 36px;
   overflow: visible;
   padding: 0;
   position: relative;
-  transform: rotate(-2deg);
-  width: 40px;
+  transform: none;
+  width: 36px;
 }
 
 :root[data-ui-theme="phantom-china"] .micButton:hover {
-  background: var(--pc-secondary-bright);
-  box-shadow: 6px 6px 0 var(--pc-border);
-  transform: translate(-2px, -2px) rotate(-2deg);
+  background: rgba(93, 129, 96, 0.12);
+  box-shadow: none;
+  color: var(--pc-accent);
+  transform: none;
 }
 
 :root[data-ui-theme="phantom-china"] .micButton svg {
   display: block;
-  height: 21px;
+  height: 24px;
   stroke: currentColor;
-  stroke-width: 2.4;
-  width: 21px;
+  stroke-width: 2.2;
+  width: 24px;
 }
 
 :root[data-ui-theme="phantom-china"] .micButton::after {
-  border: 2px solid var(--pc-danger);
+  border: 2px solid currentColor;
+  border-radius: 999px;
   content: "";
-  inset: -7px;
+  inset: -3px;
   opacity: 0;
   pointer-events: none;
   position: absolute;
@@ -468,8 +584,8 @@
 
 :root[data-ui-theme="phantom-china"] .micButton.listening {
   animation: pcMicBeat 880ms var(--pc-ease-snap) infinite;
-  background: var(--pc-danger);
-  color: var(--pc-text-inverse);
+  background: rgba(180, 30, 34, 0.1);
+  color: var(--pc-danger);
 }
 
 :root[data-ui-theme="phantom-china"] .micButton.listening::after {
@@ -478,9 +594,9 @@
 }
 
 :root[data-ui-theme="phantom-china"] .micButton.processing {
-  animation: pcMicProcessing 700ms linear infinite;
-  background: var(--pc-secondary-bright);
-  color: var(--pc-primary-black);
+  animation: none;
+  background: rgba(177, 137, 68, 0.14);
+  color: var(--pc-secondary);
 }
 
 :root[data-ui-theme="phantom-china"] .formActions {

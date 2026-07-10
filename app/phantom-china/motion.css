@@ -157,12 +157,10 @@
 
 @keyframes pcMicBeat {
   0%, 100% {
-    box-shadow: 4px 4px 0 var(--pc-border);
-    transform: rotate(-2deg) scale(1);
+    transform: scale(1);
   }
   48% {
-    box-shadow: 7px 7px 0 var(--pc-border);
-    transform: translate(-2px, -2px) rotate(-2deg) scale(1.08);
+    transform: scale(1.12);
   }
 }
 
@@ -180,6 +178,17 @@
 @keyframes pcMicProcessing {
   to {
     transform: rotate(358deg);
+  }
+}
+
+@keyframes pcTaskBurst {
+  from {
+    opacity: 0;
+    transform: translateX(-18px) skewX(6deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) skewX(6deg);
   }
 }
 

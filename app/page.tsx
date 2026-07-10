@@ -1560,6 +1560,7 @@ export default function Home() {
                         <CardTile
                           key={card.id}
                           card={card}
+                          linkedTasks={miniTasks.filter((task) => task.projectCardId === card.id)}
                           isSelected={selectedCardId === card.id}
                           tags={tags}
                           tagColors={tagColors}
@@ -1647,6 +1648,7 @@ export default function Home() {
                       <CardTile
                         key={card.id}
                         card={card}
+                        linkedTasks={miniTasks.filter((task) => task.projectCardId === card.id)}
                         isSelected={selectedCardId === card.id}
                         tags={tags}
                         tagColors={tagColors}
@@ -2386,6 +2388,7 @@ function AssigneePicker({
 
 function CardTile({
   card,
+  linkedTasks,
   isSelected,
   isAnimated,
   tags,
@@ -2395,6 +2398,7 @@ function CardTile({
   onDropOnCard
 }: {
   card: ProjectCard;
+  linkedTasks: MiniTask[];
   isSelected: boolean;
   isAnimated: boolean;
   tags: string[];
@@ -2467,6 +2471,22 @@ function CardTile({
         <button aria-label="上へ移動" title="上へ移動" onClick={(event) => { event.stopPropagation(); onReorder(-1); }}>↑</button>
         <button aria-label="下へ移動" title="下へ移動" onClick={(event) => { event.stopPropagation(); onReorder(1); }}>↓</button>
       </div>
+      <aside className={linkedTasks.length ? "cardTaskBurst" : "cardTaskBurst empty"} aria-hidden="true">
+        <span className="cardTaskBurstLabel">LINKED TASKS</span>
+        {linkedTasks.length ? (
+          linkedTasks.slice(0, 5).map((task) => (
+            <div className="cardTaskBurstItem" key={task.id}>
+              <strong>{task.title}</strong>
+              <span>{task.status}{task.dueDate ? ` / ${formatDueDate(task.dueDate)}` : ""}</span>
+            </div>
+          ))
+        ) : (
+          <div className="cardTaskBurstItem">
+            <strong>紐づくタスクなし</strong>
+            <span>この施策にタスクは未設定</span>
+          </div>
+        )}
+      </aside>
     </article>
   );
 }
