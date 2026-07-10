@@ -81,13 +81,44 @@
 
 :root[data-ui-theme="phantom-china"] .sidebar h1 {
   color: var(--pc-text-inverse);
-  font-size: 38px;
+  font-family: Impact, "Arial Black", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 36px;
   font-weight: 900;
   line-height: 0.86;
-  margin-top: 12px;
-  text-shadow: 3px 3px 0 var(--pc-primary-black), 6px 6px 0 var(--pc-secondary);
+  margin-left: -18px;
+  margin-top: 2px;
+  min-height: 104px;
+  padding: 30px 20px 18px 27px;
+  position: relative;
+  text-shadow:
+    2px 2px 0 var(--pc-border),
+    5px 5px 0 var(--pc-secondary),
+    8px 8px 0 rgba(36, 24, 22, 0.74);
   text-transform: uppercase;
-  transform: rotate(-3deg) skewX(-6deg);
+  transform: rotate(-4deg) skewX(-7deg);
+  width: 268px;
+  z-index: 1;
+}
+
+:root[data-ui-theme="phantom-china"] .sidebar h1::before {
+  background: url("/dragon-deck-logo-badge.png") center / contain no-repeat;
+  content: "";
+  inset: -36px -44px -28px -48px;
+  pointer-events: none;
+  position: absolute;
+  transform: skewX(7deg) rotate(3deg);
+  z-index: -1;
+}
+
+:root[data-ui-theme="phantom-china"] .sidebar h1::after {
+  color: var(--pc-secondary-bright);
+  content: "★";
+  font-size: 18px;
+  position: absolute;
+  right: 42px;
+  text-shadow: 2px 2px 0 var(--pc-border);
+  top: 22px;
+  transform: skewX(7deg) rotate(12deg);
 }
 
 :root[data-ui-theme="phantom-china"] nav {
