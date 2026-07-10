@@ -184,11 +184,11 @@
 @keyframes pcTaskBurst {
   from {
     opacity: 0;
-    transform: translateX(-18px) skewX(6deg);
+    transform: translateX(calc(var(--burst-x, 0px) - 18px)) rotate(var(--burst-rotate, 0deg)) skewX(6deg);
   }
   to {
     opacity: 1;
-    transform: translateX(0) skewX(6deg);
+    transform: translateX(var(--burst-x, 0px)) rotate(var(--burst-rotate, 0deg)) skewX(6deg);
   }
 }
 
