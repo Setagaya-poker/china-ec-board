@@ -64,7 +64,7 @@
     16px 16px 0 var(--pc-border);
   clip-path: none;
   isolation: isolate;
-  min-height: 66vh;
+  min-height: 360px;
   overflow: visible;
   padding: 16px 16px 20px;
   position: relative;

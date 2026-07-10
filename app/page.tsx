@@ -2473,10 +2473,10 @@ function CardTile({
         <button aria-label="上へ移動" title="上へ移動" onClick={(event) => { event.stopPropagation(); onReorder(-1); }}>↑</button>
         <button aria-label="下へ移動" title="下へ移動" onClick={(event) => { event.stopPropagation(); onReorder(1); }}>↓</button>
       </div>
-      <aside className={linkedTasks.length ? "cardTaskBurst" : "cardTaskBurst empty"} aria-label={`${card.title}に紐づくタスク`}>
-        <span className="cardTaskBurstLabel">LINKED TASKS</span>
-        {linkedTasks.length ? (
-          linkedTasks.slice(0, 5).map((task) => (
+      {linkedTasks.length > 0 ? (
+        <aside className="cardTaskBurst" aria-label={`${card.title}に紐づくタスク`}>
+          <span className="cardTaskBurstLabel">LINKED TASKS</span>
+          {linkedTasks.slice(0, 5).map((task) => (
             <button
               className="cardTaskBurstItem"
               key={task.id}
@@ -2489,14 +2489,9 @@ function CardTile({
               <strong>{task.title}</strong>
               <span>{task.status}{task.dueDate ? ` / ${formatDueDate(task.dueDate)}` : ""}</span>
             </button>
-          ))
-        ) : (
-          <div className="cardTaskBurstItem">
-            <strong>紐づくタスクなし</strong>
-            <span>この施策にタスクは未設定</span>
-          </div>
-        )}
-      </aside>
+          ))}
+        </aside>
+      ) : null}
     </article>
   );
 }
