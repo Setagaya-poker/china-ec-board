@@ -265,6 +265,7 @@
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurst {
+  --burst-panel-rotate: -3deg;
   background: var(--pc-primary-black);
   border: var(--pc-border-normal) solid var(--pc-border);
   box-shadow: 7px 7px 0 var(--pc-secondary-bright), 12px 12px 0 var(--pc-border);
@@ -279,7 +280,7 @@
   pointer-events: auto;
   position: absolute;
   top: 8px;
-  transform: translateX(-10px) scale(0.96);
+  transform: translateX(-10px) rotate(var(--burst-panel-rotate)) scale(0.96);
   transform-origin: left top;
   transition:
     opacity var(--pc-motion-fast) linear,
@@ -296,7 +297,7 @@
   content: "";
   inset: 7px 8px 7px -7px;
   position: absolute;
-  transform: perspective(220px) rotateY(-5deg);
+  transform: translate(4px, 4px);
   z-index: -1;
 }
 
@@ -310,20 +311,21 @@
 :root[data-ui-theme="phantom-china"] .card:hover .cardTaskBurst,
 :root[data-ui-theme="phantom-china"] .card:focus-within .cardTaskBurst {
   opacity: 1;
-  transform: translateX(0) scale(1);
+  transform: translateX(0) rotate(var(--burst-panel-rotate)) scale(1);
   visibility: visible;
 }
 
 :root[data-ui-theme="phantom-china"] .column:last-child .cardTaskBurst {
+  --burst-panel-rotate: 3deg;
   left: auto;
   right: calc(100% + 14px);
-  transform: translateX(10px) scale(0.96);
+  transform: translateX(10px) rotate(var(--burst-panel-rotate)) scale(0.96);
   transform-origin: right top;
 }
 
 :root[data-ui-theme="phantom-china"] .column:last-child .cardTaskBurst::before {
   inset: 7px -7px 7px 8px;
-  transform: perspective(220px) rotateY(5deg);
+  transform: translate(-4px, 4px);
 }
 
 :root[data-ui-theme="phantom-china"] .column:last-child .cardTaskBurst::after {
@@ -332,7 +334,7 @@
 
 :root[data-ui-theme="phantom-china"] .column:last-child .card:hover .cardTaskBurst,
 :root[data-ui-theme="phantom-china"] .column:last-child .card:focus-within .cardTaskBurst {
-  transform: translateX(0) scale(1);
+  transform: translateX(0) rotate(var(--burst-panel-rotate)) scale(1);
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstLabel {
@@ -379,13 +381,13 @@
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(2) {
-  --burst-rotate: -4deg;
-  --burst-x: -8px;
+  --burst-rotate: 0deg;
+  --burst-x: 0px;
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(3) {
-  --burst-rotate: -2deg;
-  --burst-x: -3px;
+  --burst-rotate: 0deg;
+  --burst-x: 0px;
   animation-delay: 35ms;
 }
 
@@ -396,14 +398,14 @@
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(5) {
-  --burst-rotate: 2deg;
-  --burst-x: -3px;
+  --burst-rotate: 0deg;
+  --burst-x: 0px;
   animation-delay: 105ms;
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(6) {
-  --burst-rotate: 4deg;
-  --burst-x: -8px;
+  --burst-rotate: 0deg;
+  --burst-x: 0px;
   animation-delay: 140ms;
 }
 
