@@ -182,10 +182,41 @@
 :root[data-ui-theme="phantom-china"] .tagPreview {
   border: var(--pc-border-thin) solid currentColor !important;
   box-shadow: 2px 2px 0 rgba(34, 35, 38, 0.18);
-  clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
+  clip-path: none;
   font-size: 10px;
   font-weight: 900;
-  padding: 2px 7px;
+  line-height: 1.35;
+  padding: 2px 8px;
+  transform: skewX(-8deg);
+}
+
+:root[data-ui-theme="phantom-china"] .tagPicker span,
+:root[data-ui-theme="phantom-china"] .tagPreview {
+  max-width: 100%;
+  min-width: 0;
+  white-space: normal;
+  word-break: keep-all;
+}
+
+:root[data-ui-theme="phantom-china"] .tags {
+  max-height: 72px;
+  overflow: hidden;
+  padding-bottom: 3px;
+  padding-right: 3px;
+}
+
+:root[data-ui-theme="phantom-china"] .tagPicker {
+  gap: 10px 16px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  max-height: none;
+  overflow: visible;
+  padding-right: 0;
+}
+
+:root[data-ui-theme="phantom-china"] .tagPicker label {
+  align-items: start;
+  gap: 8px;
+  grid-template-columns: 16px minmax(0, 1fr);
 }
 
 :root[data-ui-theme="phantom-china"] .cardBodyPreview {
@@ -390,6 +421,66 @@
   border: var(--pc-border-heavy) solid var(--pc-border);
   box-shadow: var(--pc-shadow-hard-lg);
   clip-path: none;
+}
+
+:root[data-ui-theme="phantom-china"] .editorAreaHeader {
+  align-items: center;
+  min-height: 42px;
+}
+
+:root[data-ui-theme="phantom-china"] .micButton {
+  background: var(--pc-surface-strong);
+  border: var(--pc-border-normal) solid var(--pc-border);
+  box-shadow: 4px 4px 0 var(--pc-border);
+  color: var(--pc-primary-black);
+  height: 38px;
+  min-height: 38px;
+  overflow: visible;
+  padding: 0;
+  position: relative;
+  transform: rotate(-2deg);
+  width: 40px;
+}
+
+:root[data-ui-theme="phantom-china"] .micButton:hover {
+  background: var(--pc-secondary-bright);
+  box-shadow: 6px 6px 0 var(--pc-border);
+  transform: translate(-2px, -2px) rotate(-2deg);
+}
+
+:root[data-ui-theme="phantom-china"] .micButton svg {
+  display: block;
+  height: 21px;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  width: 21px;
+}
+
+:root[data-ui-theme="phantom-china"] .micButton::after {
+  border: 2px solid var(--pc-danger);
+  content: "";
+  inset: -7px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: scale(0.78);
+}
+
+:root[data-ui-theme="phantom-china"] .micButton.listening {
+  animation: pcMicBeat 880ms var(--pc-ease-snap) infinite;
+  background: var(--pc-danger);
+  color: var(--pc-text-inverse);
+}
+
+:root[data-ui-theme="phantom-china"] .micButton.listening::after {
+  animation: pcMicRing 880ms var(--pc-ease-snap) infinite;
+  opacity: 1;
+}
+
+:root[data-ui-theme="phantom-china"] .micButton.processing {
+  animation: pcMicProcessing 700ms linear infinite;
+  background: var(--pc-secondary-bright);
+  color: var(--pc-primary-black);
 }
 
 :root[data-ui-theme="phantom-china"] .formActions {

@@ -154,7 +154,7 @@
 }
 
 :root[data-ui-theme="phantom-china"] .toolbar {
-  align-items: end;
+  align-items: center;
   background:
     linear-gradient(110deg, var(--pc-surface) 0 72%, transparent 72%),
     linear-gradient(110deg, var(--pc-secondary-bright) 0 86%, transparent 86%);
@@ -162,8 +162,14 @@
   box-shadow: var(--pc-shadow-hard-md);
   clip-path: none;
   margin-bottom: 24px;
-  min-height: 104px;
-  padding: 18px 30px 18px 24px;
+  min-height: 124px;
+  padding: 20px 30px 18px 24px;
+}
+
+:root[data-ui-theme="phantom-china"] .toolbar > div {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
 }
 
 :root[data-ui-theme="phantom-china"] .toolbar h2,
@@ -172,7 +178,7 @@
   font-size: clamp(30px, 4.6vw, 68px);
   font-weight: 900;
   letter-spacing: 0;
-  line-height: 0.82;
+  line-height: 1;
   text-shadow: 3px 3px 0 var(--pc-surface), 6px 6px 0 var(--pc-secondary);
   transform: rotate(-1.5deg) skewX(-8deg);
 }
@@ -182,6 +188,9 @@
   color: var(--pc-text-muted);
   font-family: Arial, "Hiragino Sans", sans-serif;
   font-size: 13px;
+  margin-top: 0;
+  position: relative;
+  z-index: 1;
 }
 
 :root[data-ui-theme="phantom-china"] .boardStack {
