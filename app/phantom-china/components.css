@@ -58,7 +58,7 @@
     repeating-linear-gradient(135deg, rgba(177, 137, 68, 0.14) 0 2px, transparent 2px 18px);
   border: var(--pc-border-thick) solid var(--pc-border);
   box-shadow: var(--pc-shadow-hard-sm);
-  clip-path: polygon(1.5% 0, 100% 0, 99% 97%, 96% 100%, 0 100%, 0 4%);
+  clip-path: none;
   min-height: 66vh;
   overflow: visible;
   padding: 16px 18px 20px;
@@ -108,7 +108,7 @@
   background: var(--pc-surface);
   border: var(--pc-border-normal) solid var(--pc-border);
   box-shadow: var(--pc-shadow-hard-xs);
-  clip-path: polygon(0 0, 100% 0, 100% 96%, 98% 100%, 0 100%);
+  clip-path: none;
   margin-bottom: 14px;
   max-height: 268px;
   padding: 13px 14px 12px;
@@ -205,8 +205,15 @@
 
 :root[data-ui-theme="phantom-china"] .cardActions button {
   background: transparent;
+  border: var(--pc-border-normal) solid var(--pc-border);
   box-shadow: none;
   min-height: 26px;
+  transform: none;
+}
+
+:root[data-ui-theme="phantom-china"] .cardActions button:hover {
+  box-shadow: 3px 3px 0 var(--pc-border);
+  transform: translate(-1px, -1px);
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskArea,
@@ -216,7 +223,7 @@
     linear-gradient(115deg, var(--pc-surface) 0 82%, rgba(216, 185, 83, 0.38) 82% 100%);
   border: var(--pc-border-thick) solid var(--pc-border);
   box-shadow: var(--pc-shadow-hard-sm);
-  clip-path: polygon(0 0, 99.2% 0, 100% 94%, 98% 100%, 0 100%);
+  clip-path: none;
   overflow: visible;
 }
 
@@ -250,11 +257,66 @@
   transition: background var(--pc-motion-fast), transform var(--pc-motion-fast) var(--pc-ease-sharp);
 }
 
+:root[data-ui-theme="phantom-china"] .miniTaskOpen,
+:root[data-ui-theme="phantom-china"] .candidateOpen {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: inherit;
+  cursor: pointer;
+  display: block;
+  min-height: 0;
+  padding: 0;
+  text-align: left;
+  transform: none;
+  width: 100%;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskOpen:hover,
+:root[data-ui-theme="phantom-china"] .candidateOpen:hover {
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskOpen:active,
+:root[data-ui-theme="phantom-china"] .candidateOpen:active {
+  box-shadow: none;
+  transform: none;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskMain {
+  min-width: 0;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskMain strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 :root[data-ui-theme="phantom-china"] .miniTaskRow > span {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskDelete,
+:root[data-ui-theme="phantom-china"] .iconDeleteButton {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  min-height: 30px;
+  transform: none;
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskDelete:hover,
+:root[data-ui-theme="phantom-china"] .iconDeleteButton:hover {
+  background: rgba(180, 30, 34, 0.08);
+  box-shadow: none;
+  transform: none;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow:hover {
@@ -292,7 +354,7 @@
 :root[data-ui-theme="phantom-china"] .drawer {
   border-left: var(--pc-border-heavy) solid var(--pc-border);
   box-shadow: -12px 0 0 var(--pc-secondary), -22px 0 0 var(--pc-border);
-  clip-path: polygon(7% 0, 100% 0, 100% 100%, 0 100%, 0 8%);
+  clip-path: none;
   width: min(66vw, 980px);
 }
 
@@ -327,7 +389,7 @@
 :root[data-ui-theme="phantom-china"] .modalPanel {
   border: var(--pc-border-heavy) solid var(--pc-border);
   box-shadow: var(--pc-shadow-hard-lg);
-  clip-path: polygon(4% 0, 100% 0, 97% 92%, 89% 100%, 0 100%, 0 8%);
+  clip-path: none;
 }
 
 :root[data-ui-theme="phantom-china"] .formActions {

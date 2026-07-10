@@ -160,10 +160,10 @@
     linear-gradient(110deg, var(--pc-secondary-bright) 0 86%, transparent 86%);
   border: var(--pc-border-thick) solid var(--pc-border);
   box-shadow: var(--pc-shadow-hard-md);
-  clip-path: polygon(0 0, 97% 0, 100% 72%, 98% 100%, 2% 100%, 0 83%);
+  clip-path: none;
   margin-bottom: 24px;
   min-height: 104px;
-  padding: 18px 22px 18px 24px;
+  padding: 18px 30px 18px 24px;
 }
 
 :root[data-ui-theme="phantom-china"] .toolbar h2,
