@@ -195,4 +195,11 @@
 
 :root[data-ui-theme="phantom-china"] .boardStack {
   gap: 22px;
+  overflow: visible;
+  position: relative;
+  z-index: 1;
+}
+
+:root[data-ui-theme="phantom-china"] .boardLayout {
+  overflow: visible;
 }

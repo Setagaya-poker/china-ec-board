@@ -44,6 +44,7 @@
 :root[data-ui-theme="phantom-china"] .kanban {
   gap: 18px;
   grid-template-columns: repeat(3, minmax(300px, 1fr));
+  overflow: visible;
   padding: 8px 18px 28px 6px;
   scroll-snap-type: x proximity;
 }
@@ -62,8 +63,10 @@
   min-height: 66vh;
   overflow: visible;
   padding: 16px 18px 20px;
+  position: relative;
   scroll-snap-align: start;
   transition: transform var(--pc-motion-fast) var(--pc-ease-sharp), box-shadow var(--pc-motion-fast) var(--pc-ease-sharp), background var(--pc-motion-fast);
+  z-index: 1;
 }
 
 :root[data-ui-theme="phantom-china"] .column:nth-child(2) {
@@ -76,6 +79,7 @@
 
 :root[data-ui-theme="phantom-china"] .column:hover {
   box-shadow: var(--pc-shadow-hard-md);
+  z-index: 40;
 }
 
 :root[data-ui-theme="phantom-china"] .columnHeader {
@@ -212,8 +216,8 @@
 }
 
 :root[data-ui-theme="phantom-china"] .tags {
-  max-height: 72px;
-  overflow: hidden;
+  max-height: none;
+  overflow: visible;
   padding-bottom: 3px;
   padding-right: 3px;
 }
@@ -281,7 +285,7 @@
     opacity var(--pc-motion-fast) linear,
     transform var(--pc-motion-normal) var(--pc-ease-back);
   visibility: hidden;
-  z-index: 12;
+  z-index: 999;
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurst::before {
