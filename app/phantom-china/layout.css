@@ -7,7 +7,7 @@
     repeating-linear-gradient(135deg, rgba(93, 129, 96, 0.12) 0 2px, transparent 2px 18px),
     var(--pc-bg-light);
   color: var(--pc-text);
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
 }
 
 :root[data-ui-theme="phantom-china"] body::before {

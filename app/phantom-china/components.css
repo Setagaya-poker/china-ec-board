@@ -168,14 +168,14 @@
 
 :root[data-ui-theme="phantom-china"] .card::after {
   background:
-    linear-gradient(150deg, transparent 0 78%, var(--pc-border) 78% 82%, var(--pc-secondary-bright) 82% 100%);
-  bottom: -1px;
+    linear-gradient(150deg, transparent 0 74%, rgba(34, 35, 38, 0.76) 74% 80%, rgba(216, 185, 83, 0.78) 80% 100%);
+  bottom: 2px;
   content: "";
-  height: 34px;
+  height: 28px;
   pointer-events: none;
   position: absolute;
-  right: -1px;
-  width: 52px;
+  right: 2px;
+  width: 42px;
   z-index: 1;
 }
 
@@ -222,11 +222,11 @@
 }
 
 :root[data-ui-theme="phantom-china"] .card h4 {
-  font-family: "Arial Black", Impact, "Hiragino Kaku Gothic ProN", sans-serif;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
   font-size: 17px;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0;
-  line-height: 1.12;
+  line-height: 1.18;
 }
 
 :root[data-ui-theme="phantom-china"] .dueText {
@@ -299,10 +299,11 @@
 
 :root[data-ui-theme="phantom-china"] .cardBodyPreview {
   color: var(--pc-text);
-  font-family: Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
+  font-family: "Hiragino Sans", "Yu Gothic", Arial, sans-serif;
   font-size: 12px;
-  line-height: 1.48;
-  opacity: 0.86;
+  font-weight: 500;
+  line-height: 1.56;
+  opacity: 0.9;
 }
 
 :root[data-ui-theme="phantom-china"] .cardDocLinks a {
@@ -410,9 +411,9 @@
   box-shadow: 4px 4px 0 var(--pc-border);
   color: var(--pc-primary-black);
   display: inline-block;
-  font-family: "Impact", "Arial Black", "Hiragino Sans", sans-serif;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
   font-size: 16px;
-  font-weight: 900;
+  font-weight: 800;
   justify-self: start;
   letter-spacing: 0;
   line-height: 1;
@@ -505,9 +506,10 @@
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem strong {
   display: block;
-  font-family: "Arial Black", "Hiragino Sans", sans-serif;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
   font-size: 15px;
-  font-weight: 900;
+  font-weight: 800;
+  line-height: 1.2;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -515,9 +517,9 @@
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem span {
   color: var(--pc-text-muted);
-  font-family: Arial, "Hiragino Sans", sans-serif;
+  font-family: "Hiragino Sans", "Yu Gothic", Arial, sans-serif;
   font-size: 13px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurst.empty .cardTaskBurstItem {
@@ -665,8 +667,8 @@
   box-shadow:
     inset 0 0 0 2px rgba(216, 185, 83, 0.32),
     5px 5px 0 rgba(34, 35, 38, 0.72);
-  clip-path: polygon(0 0, 98% 0, 100% 76%, 96% 100%, 0 100%);
-  font-family: Arial, "Hiragino Sans", sans-serif;
+  clip-path: polygon(0 0, 99% 0, 100% 84%, 98% 100%, 0 100%);
+  font-family: "Hiragino Sans", "Yu Gothic", Arial, sans-serif;
   gap: 10px;
   grid-template-columns: minmax(360px, 2.2fr) 68px 86px minmax(108px, 0.5fr) minmax(128px, 0.62fr) 32px;
   min-height: 64px;
@@ -720,10 +722,10 @@
 
 :root[data-ui-theme="phantom-china"] .miniTaskMain strong {
   display: block;
-  font-family: "Arial Black", "Hiragino Sans", sans-serif;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", Arial, sans-serif;
   font-size: 15px;
-  font-weight: 900;
-  line-height: 1.15;
+  font-weight: 800;
+  line-height: 1.24;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -732,7 +734,7 @@
 :root[data-ui-theme="phantom-china"] .miniTaskMain span {
   color: var(--pc-text-muted);
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow > span {
