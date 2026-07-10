@@ -42,6 +42,7 @@
 }
 
 :root[data-ui-theme="phantom-china"] .kanban {
+  align-items: start;
   gap: 18px;
   grid-template-columns: repeat(3, minmax(300px, 1fr));
   overflow: visible;
@@ -64,7 +65,8 @@
     16px 16px 0 var(--pc-border);
   clip-path: none;
   isolation: isolate;
-  min-height: 360px;
+  height: fit-content;
+  min-height: 0;
   overflow: visible;
   padding: 16px 16px 20px;
   position: relative;
