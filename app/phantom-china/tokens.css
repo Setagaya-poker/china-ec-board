@@ -1,12 +1,13 @@
 :root[data-ui-theme="phantom-china"] {
-  --pc-primary: #5d8160;
-  --pc-primary-deep: #314f36;
-  --pc-primary-black: #17231a;
+  --pc-primary: #b41e22;
+  --pc-primary-deep: #6f1718;
+  --pc-primary-black: #241816;
   --pc-secondary: #b18944;
   --pc-secondary-bright: #d8b953;
   --pc-accent: #d66e26;
   --pc-danger: #b41e22;
-  --pc-bg-dark: #17231a;
+  --pc-jade: #5d8160;
+  --pc-bg-dark: #241816;
   --pc-bg-light: #f4eee5;
   --pc-surface: #fffaf2;
   --pc-surface-strong: #f3e5ad;
@@ -20,7 +21,7 @@
   --pc-warning: #d8b953;
   --pc-disabled: #b9ad9f;
   --pc-focus: #d66e26;
-  --pc-shadow-color: #17231a;
+  --pc-shadow-color: #241816;
   --pc-border-thin: 1px;
   --pc-border-normal: 2px;
   --pc-border-thick: 4px;
@@ -44,11 +45,11 @@
   --muted: var(--pc-text-muted);
   --line: var(--pc-border-soft);
   --panel: var(--pc-surface);
-  --accent: var(--pc-primary);
+  --accent: var(--pc-danger);
   --accent-soft: var(--pc-surface-strong);
   --gold: var(--pc-secondary);
   --yellow: var(--pc-secondary-bright);
   --orange: var(--pc-accent);
-  --green: var(--pc-primary);
+  --green: var(--pc-jade);
   --red: var(--pc-danger);
 }

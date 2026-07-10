@@ -55,8 +55,8 @@
 
 :root[data-ui-theme="phantom-china"] .column {
   background:
-    linear-gradient(180deg, rgba(23, 35, 26, 0.96), rgba(23, 35, 26, 0.88)),
-    radial-gradient(circle at 16% 12%, rgba(216, 185, 83, 0.22) 0 2px, transparent 2px 12px);
+    radial-gradient(circle at 16% 12%, rgba(216, 185, 83, 0.22) 0 2px, transparent 2px 12px),
+    linear-gradient(180deg, rgba(78, 25, 20, 0.96), rgba(36, 24, 22, 0.9));
   border: 5px solid var(--pc-surface);
   box-shadow:
     4px 4px 0 var(--pc-border),
@@ -91,8 +91,8 @@
 
 :root[data-ui-theme="phantom-china"] .columnHeader {
   background:
-    linear-gradient(110deg, rgba(93, 129, 96, 0.34) 0 20%, transparent 20% 76%, rgba(216, 185, 83, 0.22) 76% 100%),
-    var(--pc-primary-black);
+    linear-gradient(110deg, rgba(180, 30, 34, 0.34) 0 20%, transparent 20% 76%, rgba(216, 185, 83, 0.24) 76% 100%),
+    var(--pc-primary-deep);
   border: var(--pc-border-thick) solid var(--pc-border);
   box-shadow: 5px 5px 0 var(--pc-secondary), 9px 9px 0 rgba(0, 0, 0, 0.62);
   clip-path: polygon(0 0, 98% 0, 94% 78%, 86% 100%, 0 92%);
@@ -549,7 +549,7 @@
 
 :root[data-ui-theme="phantom-china"] .miniTaskArea::before {
   background:
-    linear-gradient(112deg, var(--pc-primary-black) 0 82%, var(--pc-danger) 82% 100%);
+    linear-gradient(112deg, var(--pc-primary-deep) 0 82%, var(--pc-accent) 82% 100%);
   clip-path: polygon(0 0, 100% 0, 97% 88%, 0 100%);
   content: "";
   inset: 8px 12px auto 12px;
@@ -617,7 +617,7 @@
 
 :root[data-ui-theme="phantom-china"] .assigneePicker {
   background:
-    linear-gradient(108deg, rgba(93, 129, 96, 0.1), rgba(216, 185, 83, 0.12));
+    linear-gradient(108deg, rgba(180, 30, 34, 0.08), rgba(216, 185, 83, 0.14));
   border: var(--pc-border-thin) solid rgba(34, 35, 38, 0.2);
   display: grid;
   gap: 8px;
@@ -650,7 +650,7 @@
 }
 
 :root[data-ui-theme="phantom-china"] .assigneePicker button.selected {
-  background: var(--pc-primary);
+  background: var(--pc-jade);
   box-shadow: 3px 3px 0 var(--pc-secondary-bright), 6px 6px 0 var(--pc-border);
   color: var(--pc-text-inverse);
 }
@@ -770,7 +770,7 @@
 :root[data-ui-theme="phantom-china"] .miniTaskRow .assigneesText {
   background: rgba(93, 129, 96, 0.14);
   border: var(--pc-border-thin) solid rgba(34, 35, 38, 0.22);
-  border-left: 4px solid var(--pc-primary);
+  border-left: 4px solid var(--pc-jade);
   box-shadow: 2px 2px 0 rgba(34, 35, 38, 0.16);
   color: var(--pc-primary-black);
   font-family: Arial, "Hiragino Sans", sans-serif;
@@ -878,7 +878,7 @@
 }
 
 :root[data-ui-theme="phantom-china"] .modalBackdrop {
-  background: rgba(23, 35, 26, 0.72);
+  background: rgba(36, 24, 22, 0.72);
 }
 
 :root[data-ui-theme="phantom-china"] .modalPanel {
@@ -907,7 +907,7 @@
 }
 
 :root[data-ui-theme="phantom-china"] .micButton:hover {
-  background: rgba(93, 129, 96, 0.12);
+  background: rgba(180, 30, 34, 0.08);
   box-shadow: none;
   color: var(--pc-accent);
   transform: none;
