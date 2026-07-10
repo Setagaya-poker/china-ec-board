@@ -42,9 +42,9 @@
 }
 
 :root[data-ui-theme="phantom-china"] .kanban {
-  gap: 20px;
+  gap: 18px;
   grid-template-columns: repeat(3, minmax(300px, 1fr));
-  padding: 6px 8px 18px 0;
+  padding: 8px 18px 28px 6px;
   scroll-snap-type: x proximity;
 }
 
@@ -58,9 +58,10 @@
     repeating-linear-gradient(135deg, rgba(177, 137, 68, 0.14) 0 2px, transparent 2px 18px);
   border: var(--pc-border-thick) solid var(--pc-border);
   box-shadow: var(--pc-shadow-hard-sm);
-  clip-path: polygon(3% 0, 100% 0, 97% 94%, 88% 100%, 0 100%, 0 7%);
+  clip-path: polygon(1.5% 0, 100% 0, 99% 97%, 96% 100%, 0 100%, 0 4%);
   min-height: 66vh;
-  padding: 16px 13px 14px;
+  overflow: visible;
+  padding: 16px 18px 20px;
   scroll-snap-align: start;
   transition: transform var(--pc-motion-fast) var(--pc-ease-sharp), box-shadow var(--pc-motion-fast) var(--pc-ease-sharp), background var(--pc-motion-fast);
 }
@@ -82,7 +83,7 @@
   border: var(--pc-border-normal) solid var(--pc-border);
   box-shadow: 5px 5px 0 var(--pc-secondary);
   color: var(--pc-text-inverse);
-  margin: -6px -4px 16px;
+  margin: -6px -2px 16px;
   padding: 10px;
   transform: rotate(-1.5deg) skewX(-5deg);
 }
@@ -107,10 +108,10 @@
   background: var(--pc-surface);
   border: var(--pc-border-normal) solid var(--pc-border);
   box-shadow: var(--pc-shadow-hard-xs);
-  clip-path: polygon(0 0, 98% 0, 100% 88%, 94% 100%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 96%, 98% 100%, 0 100%);
   margin-bottom: 14px;
   max-height: 268px;
-  padding: 13px 12px 10px;
+  padding: 13px 14px 12px;
   position: relative;
   transition: transform var(--pc-motion-fast) var(--pc-ease-sharp), box-shadow var(--pc-motion-fast) var(--pc-ease-sharp), background var(--pc-motion-fast), border-color var(--pc-motion-fast);
 }
@@ -130,7 +131,7 @@
 
 :root[data-ui-theme="phantom-china"] .card:hover {
   box-shadow: var(--pc-shadow-hard-md);
-  transform: translate(-5px, -4px) rotate(-0.8deg);
+  transform: translate(-3px, -3px) rotate(-0.5deg);
 }
 
 :root[data-ui-theme="phantom-china"] .card:hover::before,
@@ -141,9 +142,9 @@
 :root[data-ui-theme="phantom-china"] .card.selected {
   background: #fff7df;
   border: var(--pc-border-thick) solid var(--pc-primary-black);
-  box-shadow: 7px 7px 0 var(--pc-secondary-bright), 13px 13px 0 var(--pc-primary-black);
-  padding: 11px 10px 8px;
-  transform: rotate(-0.7deg);
+  box-shadow: 5px 5px 0 var(--pc-secondary-bright), 10px 10px 0 var(--pc-primary-black);
+  padding: 11px 12px 10px;
+  transform: rotate(-0.4deg);
 }
 
 :root[data-ui-theme="phantom-china"] .cardTopline {
@@ -215,12 +216,13 @@
     linear-gradient(115deg, var(--pc-surface) 0 82%, rgba(216, 185, 83, 0.38) 82% 100%);
   border: var(--pc-border-thick) solid var(--pc-border);
   box-shadow: var(--pc-shadow-hard-sm);
-  clip-path: polygon(0 0, 98% 0, 100% 82%, 97% 100%, 0 100%);
+  clip-path: polygon(0 0, 99.2% 0, 100% 94%, 98% 100%, 0 100%);
+  overflow: visible;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskArea {
   border-left: var(--pc-border-heavy) solid var(--pc-accent);
-  padding: 16px 16px 16px 20px;
+  padding: 16px 22px 18px 20px;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskArea h3,
@@ -235,12 +237,24 @@
 
 :root[data-ui-theme="phantom-china"] .miniTaskList {
   border-top: var(--pc-border-normal) solid var(--pc-border);
+  overflow: visible;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow {
   border-bottom: var(--pc-border-thin) solid rgba(34, 35, 38, 0.22);
   font-family: Arial, "Hiragino Sans", sans-serif;
+  gap: 10px;
+  grid-template-columns: minmax(360px, 2.2fr) 60px 82px minmax(96px, 0.42fr) minmax(104px, 0.46fr) 30px;
+  padding-left: 10px;
+  padding-right: 10px;
   transition: background var(--pc-motion-fast), transform var(--pc-motion-fast) var(--pc-ease-sharp);
+}
+
+:root[data-ui-theme="phantom-china"] .miniTaskRow > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 :root[data-ui-theme="phantom-china"] .miniTaskRow:hover {
