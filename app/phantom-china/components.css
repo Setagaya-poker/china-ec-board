@@ -270,16 +270,16 @@
   box-shadow: 7px 7px 0 var(--pc-secondary-bright), 12px 12px 0 var(--pc-border);
   color: var(--pc-text-inverse);
   display: grid;
-  gap: 7px;
+  gap: 8px;
   left: calc(100% + 14px);
-  max-width: 280px;
-  min-width: 238px;
+  max-width: 320px;
+  min-width: 268px;
   opacity: 0;
-  padding: 10px;
+  padding: 12px 18px 12px 14px;
   pointer-events: auto;
   position: absolute;
   top: 8px;
-  transform: translateX(-10px) skewX(-6deg) scale(0.96);
+  transform: translateX(-10px) scale(0.96);
   transform-origin: left top;
   transition:
     opacity var(--pc-motion-fast) linear,
@@ -289,13 +289,15 @@
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurst::before {
-  background: var(--pc-accent);
+  background:
+    linear-gradient(90deg, var(--pc-accent) 0 5px, transparent 5px),
+    linear-gradient(108deg, rgba(255, 250, 242, 0.06) 0 62%, rgba(216, 185, 83, 0.14) 62% 100%);
+  border: var(--pc-border-thin) solid rgba(255, 250, 242, 0.18);
   content: "";
-  height: calc(100% + 10px);
-  left: -8px;
+  inset: 7px 8px 7px -7px;
   position: absolute;
-  top: -5px;
-  width: 5px;
+  transform: perspective(220px) rotateY(-5deg);
+  z-index: -1;
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurst::after {
@@ -308,15 +310,20 @@
 :root[data-ui-theme="phantom-china"] .card:hover .cardTaskBurst,
 :root[data-ui-theme="phantom-china"] .card:focus-within .cardTaskBurst {
   opacity: 1;
-  transform: translateX(0) skewX(-6deg) scale(1);
+  transform: translateX(0) scale(1);
   visibility: visible;
 }
 
 :root[data-ui-theme="phantom-china"] .column:last-child .cardTaskBurst {
   left: auto;
   right: calc(100% + 14px);
-  transform: translateX(10px) skewX(-6deg) scale(0.96);
+  transform: translateX(10px) scale(0.96);
   transform-origin: right top;
+}
+
+:root[data-ui-theme="phantom-china"] .column:last-child .cardTaskBurst::before {
+  inset: 7px -7px 7px 8px;
+  transform: perspective(220px) rotateY(5deg);
 }
 
 :root[data-ui-theme="phantom-china"] .column:last-child .cardTaskBurst::after {
@@ -325,7 +332,7 @@
 
 :root[data-ui-theme="phantom-china"] .column:last-child .card:hover .cardTaskBurst,
 :root[data-ui-theme="phantom-china"] .column:last-child .card:focus-within .cardTaskBurst {
-  transform: translateX(0) skewX(-6deg) scale(1);
+  transform: translateX(0) scale(1);
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstLabel {
@@ -353,7 +360,7 @@
   min-height: auto;
   padding: 7px 8px;
   text-align: left;
-  transform: translateX(var(--burst-x)) rotate(var(--burst-rotate)) skewX(6deg);
+  transform: translateX(var(--burst-x)) rotate(var(--burst-rotate));
   transition:
     background var(--pc-motion-fast),
     box-shadow var(--pc-motion-fast) var(--pc-ease-sharp),
@@ -363,40 +370,40 @@
 :root[data-ui-theme="phantom-china"] button.cardTaskBurstItem:hover {
   background: var(--pc-secondary-bright);
   box-shadow: 6px 6px 0 var(--pc-border);
-  transform: translate(calc(var(--burst-x) - 2px), -2px) rotate(var(--burst-rotate)) skewX(6deg);
+  transform: translate(calc(var(--burst-x) - 2px), -2px) rotate(var(--burst-rotate));
 }
 
 :root[data-ui-theme="phantom-china"] button.cardTaskBurstItem:active {
   box-shadow: 1px 1px 0 var(--pc-border);
-  transform: translate(calc(var(--burst-x) + 2px), 2px) rotate(var(--burst-rotate)) skewX(6deg);
+  transform: translate(calc(var(--burst-x) + 2px), 2px) rotate(var(--burst-rotate));
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(2) {
-  --burst-rotate: -3deg;
-  --burst-x: -2px;
+  --burst-rotate: -4deg;
+  --burst-x: -8px;
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(3) {
-  --burst-rotate: 1.5deg;
-  --burst-x: 8px;
+  --burst-rotate: -2deg;
+  --burst-x: -3px;
   animation-delay: 35ms;
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(4) {
-  --burst-rotate: -1deg;
-  --burst-x: 17px;
+  --burst-rotate: 0deg;
+  --burst-x: 0px;
   animation-delay: 70ms;
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(5) {
-  --burst-rotate: 2.5deg;
-  --burst-x: 11px;
+  --burst-rotate: 2deg;
+  --burst-x: -3px;
   animation-delay: 105ms;
 }
 
 :root[data-ui-theme="phantom-china"] .cardTaskBurstItem:nth-child(6) {
-  --burst-rotate: -2deg;
-  --burst-x: 4px;
+  --burst-rotate: 4deg;
+  --burst-x: -8px;
   animation-delay: 140ms;
 }
 
