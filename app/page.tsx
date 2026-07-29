@@ -1,14 +1,16 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { type ClipboardEvent, type FormEvent, type MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { hasSupabaseConfig, supabase } from "../lib/supabase";
+import { UiThemeClient } from "./ui-theme-client";
 
 const statuses = ["検討中", "準備中", "実行中", "完了"] as const;
 const miniTaskStatuses = ["未着手", "実施中", "完了"] as const;
 const assigneeOptions = ["梅澤", "Hao", "寧"] as const;
 const qaStates = ["未対応", "対応中", "完了", "保留"] as const;
 const qaTypes = ["調査依頼", "QA"] as const;
+const imagePasteBucket = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET ?? "attachments";
 
 type Status = (typeof statuses)[number];
 type MiniTaskStatus = (typeof miniTaskStatuses)[number];
@@ -23,6 +25,7 @@ type ProjectCard = {
   tags: string[];
   assignees: string[];
   isRoutine: boolean;
+  updateFlag: boolean;
   dueDate: string | null;
   updatedBy: string;
   createdAt: string;
@@ -74,6 +77,7 @@ type ProjectCardRow = {
   body: string;
   status: Status;
   is_routine: boolean;
+  update_flag?: boolean | null;
   due_date?: string | null;
   assignees?: string[] | null;
   sort_order: number;
@@ -260,10 +264,143 @@ const polishVoiceText = (text: string) =>
     .replace(/、、/g, "、")
     .trim();
 
-const googleDocUrlPattern = /https:\/\/docs\.google\.com\/(?:document|spreadsheets|presentation)\/d\/[^\s)）]+/g;
+const urlPattern = /https?:\/\/[^\s<>"'）)]+/g;
 
-const getGoogleDocLinks = (body: string) =>
-  Array.from(new Set(body.match(googleDocUrlPattern) ?? []));
+const getLinkCards = (body: string) =>
+  Array.from(new Set(body.match(urlPattern) ?? [])).map((url) => {
+    let label = "リンク";
+    let title = url;
+
+    try {
+      const parsedUrl = new URL(url);
+      const host = parsedUrl.hostname.replace(/^www\./, "");
+      title = host;
+
+      if (host === "docs.google.com") {
+        if (parsedUrl.pathname.includes("/document/")) label = "Google Docs";
+        else if (parsedUrl.pathname.includes("/spreadsheets/")) label = "Google Sheets";
+        else if (parsedUrl.pathname.includes("/presentation/")) label = "Google Slides";
+        else label = "Google Docs";
+      } else if (host === "drive.google.com") {
+        label = "Google Drive";
+      } else if (host.includes("box.com")) {
+        label = "Box";
+      } else {
+        label = host;
+      }
+    } catch {
+      title = url;
+    }
+
+    return { url, label, title };
+  });
+
+const markdownImagePattern = /!\[([^\]]*)\]\((https?:\/\/[^)\s]+)\)/g;
+const markdownImageLinePattern = /^!\[([^\]]*)\]\((https?:\/\/[^)\s]+)\)$/;
+
+const getMarkdownImages = (body: string) =>
+  Array.from(body.matchAll(markdownImagePattern)).map((match, index) => ({
+    label: match[1] || `画像${index + 1}`,
+    url: match[2]
+  }));
+
+const escapeHtml = (text: string) =>
+  text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
+const imageBlockHtml = (label: string, url: string) => `
+  <figure class="richImageBlock" contenteditable="false" data-image-label="${escapeHtml(label)}" data-image-url="${escapeHtml(url)}">
+    <span>${escapeHtml(label)}</span>
+    <img alt="${escapeHtml(label)}" src="${escapeHtml(url)}" />
+  </figure>
+`;
+
+const inlineMarkdownToHtml = (text: string) =>
+  escapeHtml(text)
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>')
+    .replace(/&lt;u&gt;(.+?)&lt;\/u&gt;/g, "<u>$1</u>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+
+const richEditorHtmlFromMarkdown = (body: string) => {
+  const lines = body.split("\n");
+  const html = lines.map((line) => {
+    const imageMatch = line.trim().match(markdownImageLinePattern);
+    if (imageMatch) {
+      return imageBlockHtml(imageMatch[1] || "画像", imageMatch[2]);
+    }
+
+    const bulletMatch = line.match(/^\s*[-*]\s+(.+)$/);
+    if (bulletMatch) {
+      return `<ul><li>${inlineMarkdownToHtml(bulletMatch[1])}</li></ul>`;
+    }
+
+    const numberedMatch = line.match(/^\s*\d+\.\s+(.+)$/);
+    if (numberedMatch) {
+      return `<ol><li>${inlineMarkdownToHtml(numberedMatch[1])}</li></ol>`;
+    }
+
+    return `<div class="richTextLine">${line ? inlineMarkdownToHtml(line) : "<br>"}</div>`;
+  }).join("");
+
+  return html || `<div class="richTextLine"><br></div>`;
+};
+
+const markdownFromInlineNode = (node: Node): string => {
+  if (node.nodeType === Node.TEXT_NODE) return node.textContent ?? "";
+
+  if (node instanceof HTMLElement) {
+    const content = Array.from(node.childNodes).map(markdownFromInlineNode).join("");
+    if (node.tagName === "A") {
+      const href = node.getAttribute("href");
+      return href ? `[${content || href}](${href})` : content;
+    }
+    if ((node.tagName === "B" || node.tagName === "STRONG") && content.trim()) {
+      return `**${content}**`;
+    }
+    if ((node.tagName === "I" || node.tagName === "EM") && content.trim()) {
+      return `*${content}*`;
+    }
+    if (node.tagName === "U" && content.trim()) {
+      return `<u>${content}</u>`;
+    }
+    return content;
+  }
+
+  return "";
+};
+
+const markdownFromBlockNode = (node: Node) => {
+  if (node instanceof HTMLElement && node.dataset.imageUrl) {
+    return `![${node.dataset.imageLabel || "画像"}](${node.dataset.imageUrl})`;
+  }
+
+  if (node instanceof HTMLElement && node.tagName === "UL") {
+    return Array.from(node.children)
+      .filter((child) => child.tagName === "LI")
+      .map((child) => `- ${markdownFromInlineNode(child).trim()}`)
+      .join("\n");
+  }
+
+  if (node instanceof HTMLElement && node.tagName === "OL") {
+    return Array.from(node.children)
+      .filter((child) => child.tagName === "LI")
+      .map((child, index) => `${index + 1}. ${markdownFromInlineNode(child).trim()}`)
+      .join("\n");
+  }
+
+  return markdownFromInlineNode(node).replace(/\u00a0/g, " ").trimEnd();
+};
+
+const markdownFromRichEditor = (root: HTMLDivElement) =>
+  Array.from(root.childNodes)
+    .map(markdownFromBlockNode)
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 
 const normalizeMiniTaskStatus = (status: string): MiniTaskStatus => {
   if (status === "完了") return "完了";
@@ -280,6 +417,7 @@ const sampleCards: ProjectCard[] = [
     tags: ["モール施策：Douyin", "SNS企画：Douyin公式"],
     assignees: ["梅澤"],
     isRoutine: false,
+    updateFlag: false,
     dueDate: null,
     updatedBy: "梅澤",
     createdAt: now(),
@@ -293,6 +431,7 @@ const sampleCards: ProjectCard[] = [
     tags: ["動画制作", "動画制作（代理店）"],
     assignees: [],
     isRoutine: false,
+    updateFlag: true,
     dueDate: null,
     updatedBy: "梅澤",
     createdAt: now(),
@@ -306,6 +445,7 @@ const sampleCards: ProjectCard[] = [
     tags: ["SNS企画：RED"],
     assignees: [],
     isRoutine: true,
+    updateFlag: false,
     dueDate: null,
     updatedBy: "梅澤",
     createdAt: now(),
@@ -350,6 +490,7 @@ const blankCardDraft = (tags: string[]): ProjectCard => ({
   tags: [],
   assignees: [],
   isRoutine: false,
+  updateFlag: false,
   dueDate: null,
   updatedBy: "梅澤",
   createdAt: now(),
@@ -591,6 +732,7 @@ export default function Home() {
         tags: card.project_card_tags?.map((item) => item.tags?.name).filter((tag): tag is string => Boolean(tag)) ?? [],
         assignees: card.assignees ?? [],
         isRoutine: card.is_routine,
+        updateFlag: Boolean(card.update_flag),
         dueDate: card.due_date ?? null,
         updatedBy: card.updated_by ?? "梅澤",
         createdAt: new Date(card.created_at).toLocaleString("ja-JP"),
@@ -706,6 +848,7 @@ export default function Home() {
       is_routine?: boolean;
       due_date?: string | null;
       assignees?: string[];
+      update_flag?: boolean;
       updated_by?: string;
     } = {};
 
@@ -715,6 +858,7 @@ export default function Home() {
     if (patch.isRoutine !== undefined) updatePayload.is_routine = patch.isRoutine;
     if (patch.dueDate !== undefined) updatePayload.due_date = patch.dueDate;
     if (patch.assignees !== undefined) updatePayload.assignees = patch.assignees;
+    if (patch.updateFlag !== undefined) updatePayload.update_flag = patch.updateFlag;
     if (patch.updatedBy !== undefined) updatePayload.updated_by = patch.updatedBy;
 
     if (Object.keys(updatePayload).length > 0) {
@@ -1035,6 +1179,7 @@ export default function Home() {
         body: string;
         status: Status;
         is_routine: boolean;
+        update_flag: boolean;
         due_date?: string | null;
         assignees: string[];
         sort_order: number;
@@ -1044,6 +1189,7 @@ export default function Home() {
         body: cardDraft.body,
         status: cardDraft.status,
         is_routine: cardDraft.isRoutine,
+        update_flag: cardDraft.updateFlag,
         assignees: cardDraft.assignees,
         sort_order: cards.length,
         updated_by: "梅澤"
@@ -1073,6 +1219,7 @@ export default function Home() {
         tags: cardDraft.tags,
         assignees: row.assignees ?? cardDraft.assignees,
         isRoutine: row.is_routine,
+        updateFlag: Boolean(row.update_flag),
         dueDate: row.due_date ?? null,
         updatedBy: row.updated_by ?? "梅澤",
         createdAt: new Date(row.created_at).toLocaleString("ja-JP"),
@@ -1532,9 +1679,12 @@ export default function Home() {
               <div>
                 <h2>施策ダッシュボード</h2>
               </div>
-              <button onClick={() => setShowCompleted((current) => !current)}>
-                {showCompleted ? "完了を隠す" : "完了を表示"}
-              </button>
+              <div className="toolbarActions">
+                <UiThemeClient />
+                <button onClick={() => setShowCompleted((current) => !current)}>
+                  {showCompleted ? "完了を隠す" : "完了を表示"}
+                </button>
+              </div>
             </header>
             <div className="boardLayout">
               <div className="boardStack">
@@ -2035,6 +2185,18 @@ export default function Home() {
             />
             定常運用に入れる
           </label>
+          <div className="updateFlagControl">
+            <div>
+              <strong>{selectedCard.updateFlag ? "更新フラグあり" : "更新フラグなし"}</strong>
+            </div>
+            <button
+              className={selectedCard.updateFlag ? "flagButton active" : "flagButton"}
+              onClick={() => updateCard(selectedCard.id, { updateFlag: !selectedCard.updateFlag })}
+              type="button"
+            >
+              {selectedCard.updateFlag ? "フラグを解除" : "更新フラグを立てる"}
+            </button>
+          </div>
           <TagPicker allTags={tags} tagColors={tagColors} selected={selectedCard.tags} onChange={(next) => updateCard(selectedCard.id, { tags: next })} />
           <AssigneePicker
             selected={selectedCard.assignees}
@@ -2189,9 +2351,104 @@ function EditorArea({
 }) {
   const [isListening, setIsListening] = useState(false);
   const [isPolishingVoice, setIsPolishingVoice] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [speechMessage, setSpeechMessage] = useState<string | null>(null);
+  const [pasteMessage, setPasteMessage] = useState<string | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  const editorRef = useRef<HTMLDivElement | null>(null);
+  const isEditorFocusedRef = useRef(false);
+  const pastedImages = getMarkdownImages(value);
+
+  useEffect(() => {
+    const editor = editorRef.current;
+    if (!editor || isEditorFocusedRef.current) return;
+
+    const nextHtml = richEditorHtmlFromMarkdown(value);
+    if (editor.innerHTML !== nextHtml) {
+      editor.innerHTML = nextHtml;
+    }
+  }, [value]);
+
+  const syncEditorValue = () => {
+    const editor = editorRef.current;
+    if (!editor) return;
+    onChange(markdownFromRichEditor(editor));
+  };
+
+  const insertTextAtCursor = (insertedText: string) => {
+    const editor = editorRef.current;
+    if (!editor) {
+      onChange(value ? `${value}\n${insertedText}` : insertedText);
+      return;
+    }
+
+    editor.focus();
+    document.execCommand("insertText", false, insertedText);
+    syncEditorValue();
+  };
+
+  const insertImageAtCursor = (labelText: string, url: string) => {
+    const editor = editorRef.current;
+    if (!editor) {
+      onChange(`${value ? `${value}\n` : ""}![${labelText}](${url})`);
+      return;
+    }
+
+    editor.focus();
+    document.execCommand("insertHTML", false, `${imageBlockHtml(labelText, url)}<div class="richTextLine"><br></div>`);
+    syncEditorValue();
+  };
+
+  const handlePaste = async (event: ClipboardEvent<HTMLDivElement>) => {
+    const imageItem = Array.from(event.clipboardData.items).find((item) => item.type.startsWith("image/"));
+    if (!imageItem) return;
+
+    event.preventDefault();
+    const file = imageItem.getAsFile();
+    if (!file) {
+      setPasteMessage("画像を読み取れませんでした。");
+      return;
+    }
+
+    if (!supabase) {
+      setPasteMessage("Supabase設定がないため、画像を保存できません。");
+      return;
+    }
+
+    setIsUploadingImage(true);
+    setPasteMessage("画像を保存中です。");
+
+    const extension = file.type.split("/")[1]?.replace("jpeg", "jpg") || "png";
+    const id = typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const storagePath = `pasted-images/${id}.${extension}`;
+
+    try {
+      const { error } = await supabase.storage
+        .from(imagePasteBucket)
+        .upload(storagePath, file, {
+          cacheControl: "3600",
+          contentType: file.type,
+          upsert: false
+        });
+
+      if (error) {
+        setPasteMessage(`画像保存に失敗しました: ${error.message}`);
+        return;
+      }
+
+      const { data } = supabase.storage.from(imagePasteBucket).getPublicUrl(storagePath);
+      const imageLabel = `画像${pastedImages.length + 1}`;
+      insertImageAtCursor(imageLabel, data.publicUrl);
+      setPasteMessage(`${imageLabel}を本文に追加しました。`);
+    } catch {
+      setPasteMessage("画像保存中に予期しないエラーが起きました。");
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
 
   const appendVoiceText = async (audioBlob: Blob) => {
     setIsPolishingVoice(true);
@@ -2218,7 +2475,7 @@ function EditorArea({
       const result = (await response.json()) as { text?: string };
       const text = result.text?.trim();
       if (text) {
-        onChange(value ? `${value}\n${text}` : text);
+        insertTextAtCursor(value ? `\n${text}` : text);
         setSpeechMessage("日本語テキストとして追加しました。");
       } else {
         setSpeechMessage("音声をテキスト化できませんでした。");
@@ -2264,11 +2521,42 @@ function EditorArea({
     }
   };
 
+  const applyFormat = (command: string, valueArg?: string) => {
+    editorRef.current?.focus();
+    document.execCommand(command, false, valueArg);
+    syncEditorValue();
+  };
+
+  const keepEditorSelection = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
   return (
-    <label className="editorAreaLabel">
-      <span className="editorAreaHeader">
-        {label}
-        {voiceEnabled ? (
+    <div className="editorAreaLabel">
+      <div className="editorAreaHeader">
+        <span>{label}</span>
+        <div className="editorToolbar" aria-label={`${label}の編集ツール`}>
+          <button
+            aria-label="太字"
+            className="formatButton"
+            onClick={() => applyFormat("bold")}
+            onMouseDown={keepEditorSelection}
+            title="太字"
+            type="button"
+          >
+            B
+          </button>
+          <button
+            aria-label="下線"
+            className="formatButton"
+            onClick={() => applyFormat("underline")}
+            onMouseDown={keepEditorSelection}
+            title="下線"
+            type="button"
+          >
+            U
+          </button>
+          {voiceEnabled ? (
           <button
             aria-label={isListening ? "録音を停止" : "音声で入力"}
             className={[
@@ -2291,16 +2579,41 @@ function EditorArea({
             )}
             {isListening ? <span className="recordingDot" /> : null}
           </button>
-        ) : null}
-      </span>
-      <textarea value={value} onChange={(event) => onChange(event.target.value)} rows={rows} />
+          ) : null}
+        </div>
+      </div>
+      <div
+        aria-label={label}
+        className="richEditor"
+        contentEditable
+        onBlur={() => {
+          isEditorFocusedRef.current = false;
+          syncEditorValue();
+        }}
+        onFocus={() => {
+          isEditorFocusedRef.current = true;
+        }}
+        onInput={syncEditorValue}
+        onPaste={handlePaste}
+        ref={editorRef}
+        role="textbox"
+        style={{ minHeight: `${Math.max(rows * 24, 140)}px` }}
+        suppressContentEditableWarning
+        tabIndex={0}
+      />
       {voiceEnabled && speechMessage ? (
         <span className={isListening || isPolishingVoice ? "speechMessage active" : "speechMessage"}>
           {isPolishingVoice ? <span className="spinner" /> : null}
           {speechMessage}
         </span>
       ) : null}
-    </label>
+      {pasteMessage ? (
+        <span className={isUploadingImage ? "speechMessage active" : "speechMessage"}>
+          {isUploadingImage ? <span className="spinner" /> : null}
+          {pasteMessage}
+        </span>
+      ) : null}
+    </div>
   );
 }
 
@@ -2409,7 +2722,7 @@ function CardTile({
   onReorder: (direction: -1 | 1) => void;
   onDropOnCard: (draggedId: string) => void;
 }) {
-  const googleDocLinks = getGoogleDocLinks(card.body);
+  const linkCards = getLinkCards(card.body);
 
   return (
     <article
@@ -2431,6 +2744,7 @@ function CardTile({
       <div className="cardTopline">
         <h4>{card.title}</h4>
         <div className="cardMeta">
+          {card.updateFlag ? <span className="updateFlagBadge">更新あり</span> : null}
           {card.dueDate ? <span className="dueText">期限 {formatDueDate(card.dueDate)}</span> : null}
           {card.isRoutine ? <span className="routineBadge">定常</span> : null}
         </div>
@@ -2448,25 +2762,26 @@ function CardTile({
         ))}
       </div>
       <p className="cardBodyPreview">{card.body || "本文未入力"}</p>
-      {googleDocLinks.length > 0 ? (
+      {linkCards.length > 0 ? (
         <div className="cardDocLinks">
-          {googleDocLinks.map((link, index) => (
+          {linkCards.slice(0, 3).map((linkCard) => (
             <a
-              href={link}
-              key={link}
+              href={linkCard.url}
+              key={linkCard.url}
               onClick={(event) => event.stopPropagation()}
               rel="noreferrer"
               target="_blank"
-              title={link}
+              title={linkCard.url}
             >
               <svg aria-hidden="true" viewBox="0 0 24 24">
                 <path d="M14 4h6v6" />
                 <path d="M10 14L20 4" />
                 <path d="M20 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5" />
               </svg>
-              Doc{googleDocLinks.length > 1 ? index + 1 : ""}
+              {linkCard.label}
             </a>
           ))}
+          {linkCards.length > 3 ? <span className="linkOverflow">+{linkCards.length - 3}</span> : null}
         </div>
       ) : null}
       <div className="cardActions">
