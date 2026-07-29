@@ -22,7 +22,7 @@ const getInitialTheme = (): ThemeName => {
   return "phantom-china";
 };
 
-export function UiThemeClient() {
+export function UiThemeClient({ showButton = true }: { showButton?: boolean }) {
   const [theme, setTheme] = useState<ThemeName>("phantom-china");
 
   useEffect(() => {
@@ -39,6 +39,10 @@ export function UiThemeClient() {
     document.documentElement.dataset.uiTheme = nextTheme;
     window.localStorage.setItem(storageKey, nextTheme);
   };
+
+  if (!showButton) {
+    return null;
+  }
 
   return (
     <button

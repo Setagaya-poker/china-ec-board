@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ja" data-ui-theme="phantom-china" suppressHydrationWarning>
       <body>
-        <UiThemeClient />
+        <UiThemeClient showButton={false} />
         {children}
       </body>
     </html>

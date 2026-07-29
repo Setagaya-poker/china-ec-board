@@ -245,6 +245,16 @@
   font-size: 10px;
 }
 
+:root[data-ui-theme="phantom-china"] .updateFlagBadge {
+  background: var(--pc-danger);
+  border: var(--pc-border-thin) solid var(--pc-border);
+  box-shadow: 2px 2px 0 var(--pc-secondary);
+  color: var(--pc-text-inverse);
+  font-family: Arial, "Hiragino Sans", sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+}
+
 :root[data-ui-theme="phantom-china"] .assigneeLine span,
 :root[data-ui-theme="phantom-china"] .tags span,
 :root[data-ui-theme="phantom-china"] .tagPicker span,
@@ -821,7 +831,8 @@
 
 :root[data-ui-theme="phantom-china"] input,
 :root[data-ui-theme="phantom-china"] select,
-:root[data-ui-theme="phantom-china"] textarea {
+:root[data-ui-theme="phantom-china"] textarea,
+:root[data-ui-theme="phantom-china"] .richEditor {
   background: var(--pc-surface);
   border: var(--pc-border-normal) solid var(--pc-border);
   box-shadow: 3px 3px 0 rgba(34, 35, 38, 0.2);
@@ -834,7 +845,8 @@
 
 :root[data-ui-theme="phantom-china"] input:focus,
 :root[data-ui-theme="phantom-china"] select:focus,
-:root[data-ui-theme="phantom-china"] textarea:focus {
+:root[data-ui-theme="phantom-china"] textarea:focus,
+:root[data-ui-theme="phantom-china"] .richEditor:focus {
   border-color: var(--pc-focus);
   box-shadow: 6px 6px 0 var(--pc-focus);
   outline: none;
@@ -894,6 +906,36 @@
   min-height: 42px;
 }
 
+:root[data-ui-theme="phantom-china"] .editorToolbar {
+  gap: 8px;
+}
+
+:root[data-ui-theme="phantom-china"] .formatButton {
+  background: var(--pc-surface);
+  border: 2px solid var(--pc-border);
+  box-shadow: 2px 2px 0 rgba(34, 35, 38, 0.28);
+  color: var(--pc-primary-black);
+  font-family: Arial, "Hiragino Sans", sans-serif;
+  font-size: 15px;
+  font-weight: 900;
+  height: 32px;
+  min-height: 32px;
+  transform: none;
+  width: 32px;
+}
+
+:root[data-ui-theme="phantom-china"] .formatButton:hover {
+  background: var(--pc-secondary-bright);
+  box-shadow: 4px 4px 0 var(--pc-border);
+  transform: translate(-1px, -1px);
+}
+
+:root[data-ui-theme="phantom-china"] .richEditor a {
+  color: var(--pc-primary);
+  font-weight: 800;
+  text-decoration-color: var(--pc-secondary);
+}
+
 :root[data-ui-theme="phantom-china"] .micButton {
   background: transparent;
   border: 0;
@@ -951,8 +993,93 @@
   color: var(--pc-secondary);
 }
 
+:root[data-ui-theme="phantom-china"] .pastedImagePreviewGrid {
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(138px, 1fr));
+}
+
+:root[data-ui-theme="phantom-china"] .pastedImagePreviewGrid a {
+  background:
+    linear-gradient(135deg, rgba(216, 185, 83, 0.18), transparent 42%),
+    var(--pc-surface);
+  border: var(--pc-border-normal) solid var(--pc-border);
+  box-shadow: 4px 4px 0 rgba(34, 35, 38, 0.24);
+  height: 126px;
+  transition: transform var(--pc-motion-fast) var(--pc-ease-sharp), box-shadow var(--pc-motion-fast) var(--pc-ease-sharp);
+}
+
+:root[data-ui-theme="phantom-china"] .pastedImagePreviewGrid a:hover {
+  box-shadow: 7px 7px 0 var(--pc-secondary);
+  transform: translate(-2px, -2px);
+}
+
+:root[data-ui-theme="phantom-china"] .pastedImagePreviewGrid img {
+  filter: saturate(0.96) contrast(1.04);
+}
+
+:root[data-ui-theme="phantom-china"] .pastedImagePreviewGrid span {
+  background: var(--pc-secondary-bright);
+  border: 2px solid var(--pc-border);
+  box-shadow: 2px 2px 0 var(--pc-border);
+  color: var(--pc-primary-black);
+  font-family: Arial, "Hiragino Sans", sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+:root[data-ui-theme="phantom-china"] .richImageBlock {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  margin: 8px 0;
+  max-width: 620px;
+}
+
+:root[data-ui-theme="phantom-china"] .richImageBlock span {
+  background: rgba(255, 250, 242, 0.9);
+  border: 1px solid rgba(34, 35, 38, 0.22);
+  box-shadow: none;
+  color: var(--pc-text-muted);
+  font-family: Arial, "Hiragino Sans", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+:root[data-ui-theme="phantom-china"] .richImageBlock img {
+  border: 1px solid rgba(34, 35, 38, 0.2);
+  filter: saturate(0.96) contrast(1.04);
+}
+
 :root[data-ui-theme="phantom-china"] .formActions {
   border-top: var(--pc-border-normal) solid var(--pc-border);
+}
+
+:root[data-ui-theme="phantom-china"] .updateFlagControl {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+:root[data-ui-theme="phantom-china"] .updateFlagControl strong,
+:root[data-ui-theme="phantom-china"] .updateFlagControl span {
+  color: var(--pc-text-muted);
+  font-size: 12px;
+}
+
+:root[data-ui-theme="phantom-china"] .flagButton {
+  background: var(--pc-secondary-bright);
+  border: var(--pc-border-thin) solid var(--pc-border);
+  box-shadow: 2px 2px 0 rgba(34, 35, 38, 0.22);
+  color: var(--pc-primary-black);
+  font-size: 11px;
+  font-weight: 900;
+  min-height: 28px;
+  padding: 4px 8px;
+}
+
+:root[data-ui-theme="phantom-china"] .flagButton.active {
+  background: var(--pc-danger);
+  color: var(--pc-text-inverse);
 }
 
 :root[data-ui-theme="phantom-china"] .candidateGroup,
@@ -963,14 +1090,10 @@
 
 :root[data-ui-theme="phantom-china"] .themeSwitcher {
   background: var(--pc-secondary-bright);
-  bottom: 18px;
   font-size: 11px;
   gap: 8px;
   min-height: 34px;
   padding: 6px 9px;
-  position: fixed;
-  right: 18px;
-  z-index: 60;
 }
 
 :root[data-ui-theme="phantom-china"] .themeSwitcher strong {
