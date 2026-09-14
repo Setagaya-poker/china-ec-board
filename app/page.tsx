@@ -159,7 +159,20 @@ const initialTags = [
   "インフルエンサー施策"
 ];
 
-const now = () => new Date().toLocaleString("ja-JP");
+const now = () => new Date().toISOString();
+
+const formatUpdatedAt = (updatedAt: string) => {
+  const date = new Date(updatedAt);
+  if (Number.isNaN(date.getTime())) return "取得できません";
+
+  return date.toLocaleString("ja-JP", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+};
 
 const formatDueDate = (dueDate: string | null) => {
   if (!dueDate) return null;
@@ -735,8 +748,8 @@ export default function Home() {
         updateFlag: Boolean(card.update_flag),
         dueDate: card.due_date ?? null,
         updatedBy: card.updated_by ?? "梅澤",
-        createdAt: new Date(card.created_at).toLocaleString("ja-JP"),
-        updatedAt: new Date(card.updated_at).toLocaleString("ja-JP")
+        createdAt: card.created_at,
+        updatedAt: card.updated_at
       }))
     );
 
@@ -749,8 +762,8 @@ export default function Home() {
         type: log.type,
         state: log.state,
         tags: log.qa_log_tags?.map((item) => item.tags?.name).filter((tag): tag is string => Boolean(tag)) ?? [],
-        createdAt: new Date(log.created_at).toLocaleString("ja-JP"),
-        updatedAt: new Date(log.updated_at).toLocaleString("ja-JP")
+        createdAt: log.created_at,
+        updatedAt: log.updated_at
       }))
     );
 
@@ -775,8 +788,8 @@ export default function Home() {
           assignees: task.assignees ?? [],
           dueDate: task.due_date ?? null,
           updatedBy: task.updated_by ?? "梅澤",
-          createdAt: new Date(task.created_at).toLocaleString("ja-JP"),
-          updatedAt: new Date(task.updated_at).toLocaleString("ja-JP")
+          createdAt: task.created_at,
+          updatedAt: task.updated_at
         }))
       );
     }
@@ -862,7 +875,19 @@ export default function Home() {
     if (patch.updatedBy !== undefined) updatePayload.updated_by = patch.updatedBy;
 
     if (Object.keys(updatePayload).length > 0) {
-      await supabase.from("project_cards").update(updatePayload).eq("id", id);
+      const { data, error } = await supabase
+        .from("project_cards")
+        .update(updatePayload)
+        .eq("id", id)
+        .select("updated_at")
+        .maybeSingle();
+      if (error) {
+        setDataNotice(`案件の更新に失敗しました: ${error.message}`);
+      } else if (data?.updated_at) {
+        setCards((current) =>
+          current.map((card) => card.id === id ? { ...card, updatedAt: data.updated_at } : card)
+        );
+      }
     }
     if (patch.tags !== undefined) {
       await persistCardTags(id, patch.tags);
@@ -1222,8 +1247,8 @@ export default function Home() {
         updateFlag: Boolean(row.update_flag),
         dueDate: row.due_date ?? null,
         updatedBy: row.updated_by ?? "梅澤",
-        createdAt: new Date(row.created_at).toLocaleString("ja-JP"),
-        updatedAt: new Date(row.updated_at).toLocaleString("ja-JP")
+        createdAt: row.created_at,
+        updatedAt: row.updated_at
       };
       setCards((current) => [savedCard, ...current]);
     } else {
@@ -1285,8 +1310,8 @@ export default function Home() {
         assignees: row.assignees ?? miniTaskDraft.assignees,
         dueDate: row.due_date ?? null,
         updatedBy: row.updated_by ?? "梅澤",
-        createdAt: new Date(row.created_at).toLocaleString("ja-JP"),
-        updatedAt: new Date(row.updated_at).toLocaleString("ja-JP")
+        createdAt: row.created_at,
+        updatedAt: row.updated_at
       };
       setMiniTasks((current) => [savedTask, ...current]);
     } else {
@@ -1344,8 +1369,8 @@ export default function Home() {
         assignees: row.assignees ?? card.assignees,
         dueDate: row.due_date ?? null,
         updatedBy: row.updated_by ?? "梅澤",
-        createdAt: new Date(row.created_at).toLocaleString("ja-JP"),
-        updatedAt: new Date(row.updated_at).toLocaleString("ja-JP")
+        createdAt: row.created_at,
+        updatedAt: row.updated_at
       } satisfies MiniTask;
     }
 
@@ -1408,8 +1433,8 @@ export default function Home() {
         assignees: row.assignees ?? task.assignees,
         dueDate: row.due_date ?? null,
         updatedBy: row.updated_by ?? "梅澤",
-        createdAt: new Date(row.created_at).toLocaleString("ja-JP"),
-        updatedAt: new Date(row.updated_at).toLocaleString("ja-JP")
+        createdAt: row.created_at,
+        updatedAt: row.updated_at
       } satisfies MiniTask;
     }
 
@@ -1577,8 +1602,8 @@ export default function Home() {
           type: row.type,
           state: row.state,
           tags: initialQaTags,
-          createdAt: new Date(row.created_at).toLocaleString("ja-JP"),
-          updatedAt: new Date(row.updated_at).toLocaleString("ja-JP")
+          createdAt: row.created_at,
+          updatedAt: row.updated_at
         },
         ...current
       ]);
@@ -2187,15 +2212,21 @@ export default function Home() {
           </label>
           <div className="updateFlagControl">
             <div>
-              <strong>{selectedCard.updateFlag ? "更新フラグあり" : "更新フラグなし"}</strong>
+              <strong>{selectedCard.updateFlag ? "状況更新を依頼中" : "状況更新の依頼なし"}</strong>
+              <span>相手に最新状況の入力を依頼するときに使用します。</span>
             </div>
             <button
+              aria-pressed={selectedCard.updateFlag}
               className={selectedCard.updateFlag ? "flagButton active" : "flagButton"}
               onClick={() => updateCard(selectedCard.id, { updateFlag: !selectedCard.updateFlag })}
               type="button"
             >
-              {selectedCard.updateFlag ? "フラグを解除" : "更新フラグを立てる"}
+              {selectedCard.updateFlag ? "依頼を解除" : "状況更新を依頼"}
             </button>
+          </div>
+          <div className="recordUpdatedAt">
+            <span>最終更新日時</span>
+            <time dateTime={selectedCard.updatedAt}>{formatUpdatedAt(selectedCard.updatedAt)}</time>
           </div>
           <TagPicker allTags={tags} tagColors={tagColors} selected={selectedCard.tags} onChange={(next) => updateCard(selectedCard.id, { tags: next })} />
           <AssigneePicker
@@ -2744,7 +2775,7 @@ function CardTile({
       <div className="cardTopline">
         <h4>{card.title}</h4>
         <div className="cardMeta">
-          {card.updateFlag ? <span className="updateFlagBadge">更新あり</span> : null}
+          {card.updateFlag ? <span className="updateFlagBadge">更新依頼中</span> : null}
           {card.dueDate ? <span className="dueText">期限 {formatDueDate(card.dueDate)}</span> : null}
           {card.isRoutine ? <span className="routineBadge">定常</span> : null}
         </div>
@@ -2762,6 +2793,9 @@ function CardTile({
         ))}
       </div>
       <p className="cardBodyPreview">{card.body || "本文未入力"}</p>
+      <time className="cardUpdatedAt" dateTime={card.updatedAt}>
+        最終更新 {formatUpdatedAt(card.updatedAt)}
+      </time>
       {linkCards.length > 0 ? (
         <div className="cardDocLinks">
           {linkCards.slice(0, 3).map((linkCard) => (

@@ -471,6 +471,14 @@ nav button.active {
   white-space: nowrap;
 }
 
+.cardUpdatedAt {
+  color: var(--muted);
+  display: block;
+  font-size: 10px;
+  line-height: 1.35;
+  margin-top: 8px;
+}
+
 .routineArea {
   background: rgba(93, 129, 96, 0.14);
   display: grid;
@@ -850,6 +858,26 @@ textarea {
   color: var(--muted);
   font-size: 12px;
   font-weight: 400;
+}
+
+.recordUpdatedAt {
+  align-items: baseline;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.recordUpdatedAt span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.recordUpdatedAt time {
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .flagButton {
