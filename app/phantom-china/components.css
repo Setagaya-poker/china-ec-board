@@ -245,14 +245,22 @@
   font-size: 10px;
 }
 
-:root[data-ui-theme="phantom-china"] .updateFlagBadge {
-  background: var(--pc-danger);
+:root[data-ui-theme="phantom-china"] .updateFlagBadge,
+:root[data-ui-theme="phantom-china"] .updateRequestBadge {
   border: var(--pc-border-thin) solid var(--pc-border);
   box-shadow: 2px 2px 0 var(--pc-secondary);
   color: var(--pc-text-inverse);
   font-family: Arial, "Hiragino Sans", sans-serif;
   font-size: 10px;
   font-weight: 900;
+}
+
+:root[data-ui-theme="phantom-china"] .updateFlagBadge {
+  background: var(--pc-success);
+}
+
+:root[data-ui-theme="phantom-china"] .updateRequestBadge {
+  background: var(--pc-danger);
 }
 
 :root[data-ui-theme="phantom-china"] .assigneeLine span,
@@ -1077,8 +1085,13 @@
   padding: 4px 8px;
 }
 
-:root[data-ui-theme="phantom-china"] .flagButton.active {
+:root[data-ui-theme="phantom-china"] .flagButton.request.active {
   background: var(--pc-danger);
+  color: var(--pc-text-inverse);
+}
+
+:root[data-ui-theme="phantom-china"] .flagButton.updated.active {
+  background: var(--pc-success);
   color: var(--pc-text-inverse);
 }
 

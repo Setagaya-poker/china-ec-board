@@ -26,6 +26,7 @@ type ProjectCard = {
   assignees: string[];
   isRoutine: boolean;
   updateFlag: boolean;
+  updateRequested: boolean;
   dueDate: string | null;
   updatedBy: string;
   createdAt: string;
@@ -78,6 +79,7 @@ type ProjectCardRow = {
   status: Status;
   is_routine: boolean;
   update_flag?: boolean | null;
+  update_requested?: boolean | null;
   due_date?: string | null;
   assignees?: string[] | null;
   sort_order: number;
@@ -431,6 +433,7 @@ const sampleCards: ProjectCard[] = [
     assignees: ["梅澤"],
     isRoutine: false,
     updateFlag: false,
+    updateRequested: true,
     dueDate: null,
     updatedBy: "梅澤",
     createdAt: now(),
@@ -445,6 +448,7 @@ const sampleCards: ProjectCard[] = [
     assignees: [],
     isRoutine: false,
     updateFlag: true,
+    updateRequested: false,
     dueDate: null,
     updatedBy: "梅澤",
     createdAt: now(),
@@ -459,6 +463,7 @@ const sampleCards: ProjectCard[] = [
     assignees: [],
     isRoutine: true,
     updateFlag: false,
+    updateRequested: false,
     dueDate: null,
     updatedBy: "梅澤",
     createdAt: now(),
@@ -504,6 +509,7 @@ const blankCardDraft = (tags: string[]): ProjectCard => ({
   assignees: [],
   isRoutine: false,
   updateFlag: false,
+  updateRequested: false,
   dueDate: null,
   updatedBy: "梅澤",
   createdAt: now(),
@@ -746,6 +752,7 @@ export default function Home() {
         assignees: card.assignees ?? [],
         isRoutine: card.is_routine,
         updateFlag: Boolean(card.update_flag),
+        updateRequested: Boolean(card.update_requested),
         dueDate: card.due_date ?? null,
         updatedBy: card.updated_by ?? "梅澤",
         createdAt: card.created_at,
@@ -862,6 +869,7 @@ export default function Home() {
       due_date?: string | null;
       assignees?: string[];
       update_flag?: boolean;
+      update_requested?: boolean;
       updated_by?: string;
     } = {};
 
@@ -872,6 +880,7 @@ export default function Home() {
     if (patch.dueDate !== undefined) updatePayload.due_date = patch.dueDate;
     if (patch.assignees !== undefined) updatePayload.assignees = patch.assignees;
     if (patch.updateFlag !== undefined) updatePayload.update_flag = patch.updateFlag;
+    if (patch.updateRequested !== undefined) updatePayload.update_requested = patch.updateRequested;
     if (patch.updatedBy !== undefined) updatePayload.updated_by = patch.updatedBy;
 
     if (Object.keys(updatePayload).length > 0) {
@@ -1205,6 +1214,7 @@ export default function Home() {
         status: Status;
         is_routine: boolean;
         update_flag: boolean;
+        update_requested: boolean;
         due_date?: string | null;
         assignees: string[];
         sort_order: number;
@@ -1215,6 +1225,7 @@ export default function Home() {
         status: cardDraft.status,
         is_routine: cardDraft.isRoutine,
         update_flag: cardDraft.updateFlag,
+        update_requested: cardDraft.updateRequested,
         assignees: cardDraft.assignees,
         sort_order: cards.length,
         updated_by: "梅澤"
@@ -1245,6 +1256,7 @@ export default function Home() {
         assignees: row.assignees ?? cardDraft.assignees,
         isRoutine: row.is_routine,
         updateFlag: Boolean(row.update_flag),
+        updateRequested: Boolean(row.update_requested),
         dueDate: row.due_date ?? null,
         updatedBy: row.updated_by ?? "梅澤",
         createdAt: row.created_at,
@@ -2210,19 +2222,41 @@ export default function Home() {
             />
             定常運用に入れる
           </label>
-          <div className="updateFlagControl">
-            <div>
-              <strong>{selectedCard.updateFlag ? "状況更新を依頼中" : "状況更新の依頼なし"}</strong>
-              <span>相手に最新状況の入力を依頼するときに使用します。</span>
+          <div className="updateSignalControls">
+            <div className="updateFlagControl">
+              <div>
+                <strong>{selectedCard.updateRequested ? "状況更新を依頼中" : "状況更新の依頼なし"}</strong>
+                <span>相手に最新状況の入力を依頼するときに使用します。</span>
+              </div>
+              <button
+                aria-pressed={selectedCard.updateRequested}
+                className={selectedCard.updateRequested ? "flagButton request active" : "flagButton request"}
+                onClick={() => updateCard(selectedCard.id, {
+                  updateRequested: !selectedCard.updateRequested,
+                  ...(selectedCard.updateRequested ? {} : { updateFlag: false })
+                })}
+                type="button"
+              >
+                {selectedCard.updateRequested ? "依頼を解除" : "状況更新を依頼"}
+              </button>
             </div>
-            <button
-              aria-pressed={selectedCard.updateFlag}
-              className={selectedCard.updateFlag ? "flagButton active" : "flagButton"}
-              onClick={() => updateCard(selectedCard.id, { updateFlag: !selectedCard.updateFlag })}
-              type="button"
-            >
-              {selectedCard.updateFlag ? "依頼を解除" : "状況更新を依頼"}
-            </button>
+            <div className="updateFlagControl">
+              <div>
+                <strong>{selectedCard.updateFlag ? "更新したよを通知中" : "更新通知なし"}</strong>
+                <span>最新状況を更新したことを相手に知らせます。</span>
+              </div>
+              <button
+                aria-pressed={selectedCard.updateFlag}
+                className={selectedCard.updateFlag ? "flagButton updated active" : "flagButton updated"}
+                onClick={() => updateCard(selectedCard.id, {
+                  updateFlag: !selectedCard.updateFlag,
+                  ...(selectedCard.updateFlag ? {} : { updateRequested: false })
+                })}
+                type="button"
+              >
+                {selectedCard.updateFlag ? "更新通知を解除" : "更新したよ"}
+              </button>
+            </div>
           </div>
           <div className="recordUpdatedAt">
             <span>最終更新日時</span>
@@ -2775,7 +2809,8 @@ function CardTile({
       <div className="cardTopline">
         <h4>{card.title}</h4>
         <div className="cardMeta">
-          {card.updateFlag ? <span className="updateFlagBadge">更新依頼中</span> : null}
+          {card.updateRequested ? <span className="updateRequestBadge">更新依頼中</span> : null}
+          {card.updateFlag ? <span className="updateFlagBadge">更新あり</span> : null}
           {card.dueDate ? <span className="dueText">期限 {formatDueDate(card.dueDate)}</span> : null}
           {card.isRoutine ? <span className="routineBadge">定常</span> : null}
         </div>
